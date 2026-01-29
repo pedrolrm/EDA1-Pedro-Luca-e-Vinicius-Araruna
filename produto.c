@@ -33,7 +33,7 @@ void listar_produtos(Produto *cabeca)
 Produto *procurar_produto(Produto *cabeca, int codigo)
 {
     Produto *atual = cabeca->prox;
-    while (atual != NULL && codigo != atual->codigo_produto)
+    while (atual != NULL && codigo != atual->codigo_produto) // enquanto o atual não for nulo e for diferente do código ele procura
     {
         atual = atual->prox;
     }
@@ -106,4 +106,28 @@ void editar_produto(Produto *cabeca)
         scanf("%f", &novo_preco);
         produto_editado->preco_produto = novo_preco;
     }
+}
+
+void remover_produto(Produto *cabeca, int codigo_produto)
+{
+    Produto *anterior = cabeca; // sempre um passo atrás do atual
+    Produto *atual = cabeca->prox;
+
+    while (atual != NULL && atual->codigo_produto != codigo_produto)
+    {
+        atual = atual->prox;       // da um passo no atual
+        anterior = anterior->prox; // um passo no anterior
+    }
+
+    if (atual == NULL)
+    {
+        printf("O produto de código %d não foi encontrado!", codigo_produto);
+        return;
+    }
+
+    anterior->prox = atual->prox; // Salva o próximo como um depois do produto que vai ser excluido
+
+    free(atual->nome); // Remove primeiro o nome (ponteiro interno)
+    free(atual);       // depois o ponteiro para o produto selecionado
+    printf("O produto de código %d foi excluido", codigo_produto);
 }

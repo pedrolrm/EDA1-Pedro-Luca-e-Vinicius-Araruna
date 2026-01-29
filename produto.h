@@ -18,7 +18,7 @@ void listar_produto(Produto *inicio); // read
 // find one
 Produto *procurar_produto(Produto *inicio, int codigo_produto); // Retorna o endereço do produto encontrado ou NULL
 
-void editar_produto(Produto *inicio);   // update
-void remover_produto(Produto **inicio); // delete
+void editar_produto(Produto *inicio);                      // update
+void remover_produto(Produto *inicio, int codigo_produto); // delete
 
 #endif
