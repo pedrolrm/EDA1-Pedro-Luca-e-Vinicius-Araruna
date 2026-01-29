@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "produto.h"
+#include "utils.h"
 
 Produto *cria_lista_produto()
 {
@@ -37,4 +38,32 @@ Produto *procurar_produto(Produto *cabeca, int codigo)
         atual = atual->prox;
     }
     return atual;
+}
+
+void cria_produto(Produto *cabeca)
+{
+    Produto *novo_produto = (Produto *)(malloc(sizeof(Produto))); // Cria novo produto solto na memória
+    if (novo_produto == NULL)
+    {
+        printf("\nFalha ao alocar memória para novo produto\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("\nDigite o código do produto: ");
+    scanf("%d", &novo_produto->codigo_produto);
+    if (procurar_produto(cabeca, novo_produto->codigo_produto) != NULL) // Usa a função de busca para ver se o código já está cadastrado
+    {
+        printf("\nUm produto com esse código já está cadastrado!");
+        free(novo_produto);
+        return;
+    }
+    printf("\nDigte o nome do produto: ");
+    novo_produto->nome = ler_texto(); // Chama a função ler_texto() criada em utils.c
+
+    printf("\nDigite o preço do produto: ");
+    scanf("%f", &novo_produto->preco_produto);
+
+    // Lógica de inserção na lista
+    novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
+    cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
 }
