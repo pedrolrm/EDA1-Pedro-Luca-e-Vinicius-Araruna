@@ -10,16 +10,13 @@ typedef struct Produto
 
 } Produto;
 
-// crud
 Produto *cria_lista_produto();
-void cria_produto(Produto *inicio);   // create
-void listar_produto(Produto *inicio); // read
-
-// find one
-Produto *procurar_produto(Produto *inicio, int codigo_produto); // Retorna o endereço do produto encontrado ou NULL
-
-void editar_produto(Produto *inicio);                      // update
-void remover_produto(Produto *inicio, int codigo_produto); // delete
+Produto *procura_fim(Produto *inicio);
+void cria_produto(Produto *inicio);
+void listar_produto(Produto *inicio);
+Produto *procurar_produto(Produto *inicio, int codigo_produto);
+void editar_produto(Produto *inicio);
+void remover_produto(Produto *inicio, int codigo_produto);
 void apagar_lista_produtos(Produto *inicio);
 
 #endif

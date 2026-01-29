@@ -13,27 +13,27 @@ Produto *cria_lista_produto()
         exit(EXIT_FAILURE);
     }
 
-    cabeca->prox = NULL; // começando a lsita vazia
-    cabeca->nome = NULL; // Começando o ponteiro para nome vazio para evitar problema
+    cabeca->prox = NULL;
+    cabeca->nome = NULL;
 
-    return cabeca; // retorna o endereço da primeira célula da lista
+    return cabeca;
 }
 
 void listar_produtos(Produto *cabeca)
 {
-    Produto *atual = cabeca->prox; // começa apontando para a próxima struct de produto depois da cabeça
+    Produto *atual = cabeca->prox;
     while (atual != NULL)
     {
         printf("Código: %d | Nome: %s | Preço: R$ %.2f \n", atual->codigo_produto, atual->nome, atual->preco_produto);
 
-        atual = atual->prox; // Pula para a próxima
+        atual = atual->prox;
     }
 }
 
 Produto *procurar_produto(Produto *cabeca, int codigo)
 {
     Produto *atual = cabeca->prox;
-    while (atual != NULL && codigo != atual->codigo_produto) // enquanto o atual não for nulo e for diferente do código ele procura
+    while (atual != NULL && codigo != atual->codigo_produto)
     {
         atual = atual->prox;
     }
@@ -58,7 +58,7 @@ void cria_produto(Produto *cabeca)
         return;
     }
     printf("\nDigte o nome do produto: ");
-    novo_produto->nome = ler_texto(); // Chama a função ler_texto() criada em utils.c
+    novo_produto->nome = ler_texto();
 
     printf("\nDigite o preço do produto: ");
     scanf("%f", &novo_produto->preco_produto);
@@ -66,13 +66,6 @@ void cria_produto(Produto *cabeca)
     // Lógica de inserção na lista
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
     cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
-    /**
-     * cabeca.prox -> primeiro_produto (Antes de adicionar o novo)
-     * novo_produto.prox -> primeiro_produto
-     * cabeca.prox -> novo_produto
-     * Estrutura final: cabeca -> novo_produto -> primeiro_produto (O novo produto foi inserido no começo da lista)
-     * O novo_produto vira o primeiro produto
-     */
 }
 
 void editar_produto(Produto *cabeca)
@@ -96,7 +89,7 @@ void editar_produto(Produto *cabeca)
     {
         free(produto_editado->nome); // limpa a memória do nome antigo
         printf("\nDigite o novo nome para o produto: ");
-        produto_editado->nome = ler_texto(); // Chama a função do utils para ler o nome
+        produto_editado->nome = ler_texto();
     }
 
     if (opcao == 2)
@@ -110,13 +103,13 @@ void editar_produto(Produto *cabeca)
 
 void remover_produto(Produto *cabeca, int codigo_produto)
 {
-    Produto *anterior = cabeca; // sempre um passo atrás do atual
+    Produto *anterior = cabeca;
     Produto *atual = cabeca->prox;
 
     while (atual != NULL && atual->codigo_produto != codigo_produto)
     {
-        atual = atual->prox;       // da um passo no atual
-        anterior = anterior->prox; // um passo no anterior
+        atual = atual->prox;
+        anterior = anterior->prox;
     }
 
     if (atual == NULL)
@@ -127,8 +120,8 @@ void remover_produto(Produto *cabeca, int codigo_produto)
 
     anterior->prox = atual->prox; // Salva o próximo como um depois do produto que vai ser excluido
 
-    free(atual->nome); // Remove primeiro o nome (ponteiro interno)
-    free(atual);       // depois o ponteiro para o produto selecionado
+    free(atual->nome);
+    free(atual);
     printf("O produto de código %d foi excluido", codigo_produto);
 }
 
@@ -139,13 +132,23 @@ void apagar_lista_produtos(Produto *cabeca)
 
     while (atual != NULL)
     {
-        proximo = atual->prox; // Salva o endereço do próximo
-        free(atual->nome);     // Apaga o nome do produto atual
-        free(atual);           // apaga o produto atual
-        atual = proximo;       // o atual assume o valor prévio do próximo
+        proximo = atual->prox;
+        free(atual->nome);
+        free(atual);
+        atual = proximo;
     }
     free(cabeca->nome); // apaga o inicio da lista
     free(cabeca);
     printf("\nLista apagada com sucesso!\n");
     return;
+}
+
+Produto *procura_fim(Produto *cabeca)
+{
+    Produto *fim = cabeca;
+    while (fim->prox != NULL)
+    {
+        fim = fim->prox;
+    }
+    return fim;
 }
