@@ -10,6 +10,7 @@ typedef struct Produto {
 } Produto;
 
 // crud
+Produto * cria_lista_produto();
 void cria_produto(Produto **inicio); // create
 void listar_produto(Produto *inicio); // read
 
