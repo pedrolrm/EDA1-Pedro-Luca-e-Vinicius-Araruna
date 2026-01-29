@@ -74,3 +74,36 @@ void cria_produto(Produto *cabeca)
      * O novo_produto vira o primeiro produto
      */
 }
+
+void editar_produto(Produto *cabeca)
+{
+    int codigo;
+    printf("\nDigite o código do produto: ");
+    scanf("%d", &codigo);
+
+    Produto *produto_editado = (procurar_produto(cabeca, codigo));
+
+    if (produto_editado == NULL)
+    {
+        printf("\nProduto com o código %d não encontrado", codigo);
+        return;
+    }
+
+    int opcao;
+    printf("Você deseja editar: \n(1): Nome do produto \n(2): Preço do produto\n");
+    scanf("%d", &opcao);
+    if (opcao == 1)
+    {
+        free(produto_editado->nome); // limpa a memória do nome antigo
+        printf("\nDigite o novo nome para o produto: ");
+        produto_editado->nome = ler_texto(); // Chama a função do utils para ler o nome
+    }
+
+    if (opcao == 2)
+    {
+        float novo_preco;
+        printf("\nDigite o novo preço para o produto: ");
+        scanf("%f", &novo_preco);
+        produto_editado->preco_produto = novo_preco;
+    }
+}
