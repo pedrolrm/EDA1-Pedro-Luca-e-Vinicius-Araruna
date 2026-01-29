@@ -131,3 +131,21 @@ void remover_produto(Produto *cabeca, int codigo_produto)
     free(atual);       // depois o ponteiro para o produto selecionado
     printf("O produto de código %d foi excluido", codigo_produto);
 }
+
+void apagar_lista_produtos(Produto *cabeca)
+{
+    Produto *atual = cabeca->prox;
+    Produto *proximo;
+
+    while (atual != NULL)
+    {
+        proximo = atual->prox; // Salva o endereço do próximo
+        free(atual->nome);     // Apaga o nome do produto atual
+        free(atual);           // apaga o produto atual
+        atual = proximo;       // o atual assume o valor prévio do próximo
+    }
+    free(cabeca->nome); // apaga o inicio da lista
+    free(cabeca);
+    printf("\nLista apagada com sucesso!\n");
+    return;
+}
