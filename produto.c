@@ -28,3 +28,13 @@ void listar_produtos(Produto *cabeca)
         atual = atual->prox; // Pula para a próxima
     }
 }
+
+Produto *procurar_produto(Produto *cabeca, int codigo)
+{
+    Produto *atual = cabeca->prox;
+    while (atual != NULL && codigo != atual->codigo_produto)
+    {
+        atual = atual->prox;
+    }
+    return atual;
+}
