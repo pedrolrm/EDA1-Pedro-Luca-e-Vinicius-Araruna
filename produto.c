@@ -66,4 +66,11 @@ void cria_produto(Produto *cabeca)
     // Lógica de inserção na lista
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
     cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
+    /**
+     * cabeca.prox -> primeiro_produto (Antes de adicionar o novo)
+     * novo_produto.prox -> primeiro_produto
+     * cabeca.prox -> novo_produto
+     * Estrutura final: cabeca -> novo_produto -> primeiro_produto (O novo produto foi inserido no começo da lista)
+     * O novo_produto vira o primeiro produto
+     */
 }
