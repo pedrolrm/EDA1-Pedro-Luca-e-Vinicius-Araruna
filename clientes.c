@@ -74,3 +74,72 @@ void listarClientes(Cliente *head){
 
 }
 
+void editarCliente(Cliente *head){
+    char busca_cpf[15];
+    printf("\n Digite o CPF do cliente para editar: ");
+    scanf("%[^\n]", busca_cpf);
+
+    Cliente *cliente_alvo = encontrar_cliente_por_cpf(head,busca_cpf);
+
+    if(cliente_alvo == NULL){
+        printf("Cliente nao encontrado!\n");
+        return;
+    }
+
+    int opcao;
+
+    do{
+        printf("\n Editando: %s\n", cliente_alvo->nome);
+        printf("1. Alterar Nome\n");
+        printf("2. Alterar Email\n");
+        printf("3. Alterar Telefone\n");
+        printf("4. Alterar Data de Nascimento\n");
+        printf("0. Voltar ao Menu Principal\n");
+        printf("Escolha sua opcao: ");
+        scanf("%d", &opcao);
+
+        char buffer_temp[256];
+
+        switch(opcao){
+            case 1:
+            printf("Novo nome: ");
+            scanf("%[^\n]",buffer_temp);
+            char *novoNome = realloc(cliente_alvo->nome, (strlen(buffer_temp) + 1) *sizeof(char));
+
+            if(novoNome != NULL){
+                cliente_alvo->nome = novoNome;
+                strcpy(cliente_alvo->nome , buffer_temp);
+                printf("Nome atualizado com sucesso!\n");
+            } else {
+                printf("Erro: falha ao alocar nome");
+            } break;
+
+            case 2:
+            printf("Novo email: (atual: %s)",cliente_alvo->email);
+            scanf("%[^\n]",cliente_alvo->email);
+            printf("Email atualizado com sucesso!\n");
+            break;
+
+            case 3:
+            printf("Novo telefone: (atual: %s)",cliente_alvo->telefone);
+            scanf("%[^\n]", cliente_alvo->telefone);
+            printf("Numero de telefone atualizado com sucesso!\n");
+            break;
+
+            case 4:
+            printf("Nova data de nascimento: (atual: %s)", cliente_alvo->data_nascimento);
+            scanf("%[^\n]",cliente_alvo->data_nascimento);
+            printf("Data de Nascimento atualizada com sucesso!\n");
+            break;
+
+            case 0:
+            printf("Finalizando edicao!\n");
+            break;
+
+            default:
+            printf("Opcao invalida!\n");
+            break;
+        }
+    } while (opcao != 0);
+}
+
