@@ -26,7 +26,7 @@ void cadastrarCliente(Cliente **head){
     Cliente *novo_cliente =  (sizeof(Cliente));
 
     if(!novo_cliente){
-        printf("Erro: falaha ao alocar struct\n");
+        printf("Erro: falha ao alocar struct\n");
         return;
     }
      strcpy(novo_cliente->cpf, cpf_temp);
@@ -56,5 +56,21 @@ void cadastrarCliente(Cliente **head){
      *head = novo_cliente;
 
      printf("Cliente cadastrado com sucesso!\n");
+}
+
+void listarClientes(Cliente *head){
+    if(head == NULL){
+        printf("\n--- Lista de clientes vazia ---\n");
+    }
+
+    Cliente *cliente_atual = head;
+    
+    printf("\n---Lista de Clientes ---\n");
+    while(cliente_atual != NULL){
+        printf("CPF: %s  |  Nome: %s\n", cliente_atual->cpf, cliente_atual->nome);
+        cliente_atual = cliente_atual->prox;
+    }
+    printf("----------------------------\n");
+
 }
 
