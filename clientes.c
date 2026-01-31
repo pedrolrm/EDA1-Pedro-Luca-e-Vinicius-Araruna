@@ -23,7 +23,7 @@ void cadastrarCliente(Cliente **head){
         printf("Erro: CPF ja cadastrado!");
         return;
     }
-    Cliente *novo_cliente =  (sizeof(Cliente));
+    Cliente *novo_cliente =  malloc(sizeof(Cliente));
 
     if(!novo_cliente){
         printf("Erro: falha ao alocar struct\n");
@@ -168,7 +168,7 @@ void removerCliente(Cliente **head){
         cliente_anterior->prox = cliente_atual->prox;
     }
 
-    if(cliente_atual->nome == NULL){
+    if(cliente_atual->nome != NULL){
         free(cliente_atual->nome);
     }
     free(cliente_atual);
