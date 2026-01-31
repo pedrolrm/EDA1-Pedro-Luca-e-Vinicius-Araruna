@@ -172,6 +172,21 @@ void removerCliente(Cliente **head){
         free(cliente_atual->nome);
     }
     free(cliente_atual);
-    
+
     printf("Cliente removido com sucesso!\n");
+}
+
+void liberaMemoriaTotal(Cliente **head){
+    Cliente *cliente_atual = *head;
+
+    while(cliente_atual != NULL){
+        Cliente *cliente_excluido = cliente_atual;
+
+        cliente_atual = cliente_atual->prox;
+
+        free(cliente_excluido->nome);
+        free(cliente_excluido);
+    }
+    *head = NULL;
+    printf("Memoria do sistema limpa com sucesso!\n");
 }
