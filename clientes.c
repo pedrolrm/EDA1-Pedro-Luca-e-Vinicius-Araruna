@@ -1,5 +1,19 @@
 #include "clientes.h"
 
+char *ler_texto(){
+    char temp[100];
+    scanf(" %[^\n]", temp);
+
+    char *nome = (char *)malloc((strlen(temp) + 1) * sizeof(char)); {
+        printf("\nFalha ao alocar memória\n");
+        exit(EXIT_FAILURE);
+    }
+
+    strcpy(nome, temp); 
+
+    return nome;
+}
+
 Cliente *encontrar_cliente_por_cpf(Cliente *primeiro_cliente, char *cpf){
     Cliente *cliente_atual = primeiro_cliente;
     
@@ -33,15 +47,7 @@ void cadastrarCliente(Cliente **head){
      printf("Nome Completo: ");
      scanf("%[^\n]",buffer_nome);
 
-     novo_cliente->nome = malloc((strlen(buffer_nome) + 1) *sizeof(char));
-     
-     if(novo_cliente->nome == NULL){
-        printf("Erro: falha ao alocar nome\n");
-        free(novo_cliente);
-        return;
-     }
-
-     strcpy(novo_cliente->nome, buffer_nome);
+     novo_cliente->nome = ler_texto();
 
      printf("Email: \n"); 
      scanf("%[^\n]", novo_cliente->email);
@@ -103,16 +109,12 @@ void editarCliente(Cliente *head){
         switch(opcao){
             case 1:
             printf("Novo nome: ");
-            scanf("%[^\n]",buffer_temp);
-            char *novoNome = realloc(cliente_alvo->nome, (strlen(buffer_temp) + 1) *sizeof(char));
 
-            if(novoNome != NULL){
-                cliente_alvo->nome = novoNome;
-                strcpy(cliente_alvo->nome , buffer_temp);
-                printf("Nome atualizado com sucesso!\n");
-            } else {
-                printf("Erro: falha ao alocar nome");
-            } break;
+            free(cliente_alvo->nome);
+            cliente_alvo->nome = ler_texto();
+
+            printf("Nome atualizado com sucesso!\n");
+            break;
 
             case 2:
             printf("Novo email: (atual: %s)",cliente_alvo->email);
