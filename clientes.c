@@ -143,3 +143,35 @@ void editarCliente(Cliente *head){
     } while (opcao != 0);
 }
 
+
+void removerCliente(Cliente **head){
+    char busca_cpf[15];
+    printf("\n CPF para remover: ");
+    scanf("%[^\n]",busca_cpf);
+
+    Cliente *cliente_atual = *head;
+    Cliente *cliente_anterior = NULL;
+
+    while(cliente_atual != NULL && strcmp(cliente_atual->cpf,busca_cpf) != 0 ){
+        cliente_anterior = cliente_atual;
+        cliente_atual = cliente_atual->prox;
+    }
+
+    if(cliente_atual == NULL){
+        printf("CPF nao encontrado!\n");
+        return;
+    }
+
+    if(cliente_anterior == NULL){
+        *head = cliente_atual->prox;
+    } else{
+        cliente_anterior->prox = cliente_atual->prox;
+    }
+
+    if(cliente_atual->nome == NULL){
+        free(cliente_atual->nome);
+    }
+    free(cliente_atual);
+    
+    printf("Cliente removido com sucesso!\n");
+}
