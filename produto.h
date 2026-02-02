@@ -19,5 +19,6 @@ Produto *procurar_produto(Produto *inicio, int codigo_produto);
 void editar_produto(Produto *inicio);
 void remover_produto(Produto *inicio, int codigo_produto);
 void apagar_lista_produtos(Produto *inicio);
+void adiciona_produto(Produto *cabeca, Produto *novo_produto);
 
 #endif

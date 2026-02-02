@@ -62,10 +62,6 @@ void cria_produto(Produto *cabeca)
 
     printf("\nDigite o preço do produto: ");
     scanf("%f", &novo_produto->preco_produto);
-
-    // Lógica de inserção na lista
-    novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
-    cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
 }
 
 void editar_produto(Produto *cabeca)
@@ -151,4 +147,11 @@ Produto *procura_fim(Produto *cabeca)
         fim = fim->prox;
     }
     return fim;
+}
+
+void adiciona_produto(Produto *cabeca, Produto *novo_produto)
+{
+    // Lógica de inserção na lista
+    novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
+    cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
 }

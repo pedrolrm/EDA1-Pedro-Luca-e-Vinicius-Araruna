@@ -206,3 +206,22 @@ void liberaMemoriaTotal(Cliente **cabeca_main)
     *cabeca_main = NULL;
     printf("Memoria do sistema limpa com sucesso!\n");
 }
+
+void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
+{
+    if (cliente_alvo == NULL)
+        return;
+
+    Produto *cabeca_carrinho = cliente_alvo->carrinho;
+    Produto *item_no_carrinho = procurar_produto(cabeca_carrinho, produto->codigo_produto);
+    if (item_no_carrinho != NULL)
+    {
+        printf("\nProduto adicionado com sucesso!\n");
+        item_no_carrinho->quantidade += qtd;
+        cabeca_carrinho->quantidade += qtd;
+        return;
+    }
+
+    adiciona_produto(cabeca_carrinho, produto);
+    printf("\nProduto adicionado com sucesso!\n");
+}
