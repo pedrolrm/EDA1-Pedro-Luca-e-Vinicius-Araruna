@@ -40,8 +40,15 @@ int main()
                 {
                 case 1:
                     Produto *novo_produto = cria_produto(cabeca_lista_produtos);
-                    adiciona_produto(cabeca_lista_produtos, novo_produto);
-                    break;
+                    if (novo_produto != NULL)
+                    {
+                        adiciona_produto(cabeca_lista_produtos, novo_produto);
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
 
                 case 2:
                     listar_produtos(cabeca_lista_produtos);
@@ -91,6 +98,7 @@ int main()
         default:
             printf("Opcao invalida!\n");
         }
+
     } while (opcao_principal != 0);
 
     apagar_lista_produtos(cabeca_lista_produtos); // free na memória
