@@ -40,7 +40,7 @@ Produto *procurar_produto(Produto *cabeca, int codigo)
     return atual;
 }
 
-void cria_produto(Produto *cabeca)
+Produto *cria_produto(Produto *cabeca)
 {
     Produto *novo_produto = (Produto *)(malloc(sizeof(Produto))); // Cria novo produto solto na memória
     if (novo_produto == NULL)
@@ -62,6 +62,8 @@ void cria_produto(Produto *cabeca)
 
     printf("\nDigite o preço do produto: ");
     scanf("%f", &novo_produto->preco_produto);
+
+    return novo_produto;
 }
 
 void editar_produto(Produto *cabeca)
