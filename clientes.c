@@ -1,5 +1,14 @@
 #include "clientes.h"
 
+Cliente* criarListaComCabeca(){
+    Cliente *cabeca = calloc(1, sizeof(Cliente));
+    if(cabeca == NULL){
+        printf("Erro ao criar a lista!\n");
+        exit(EXIT_FAILURE);
+    }
+    return cabeca;
+}
+
 char *ler_texto(){
     char temp[100];
     scanf(" %[^\n]", temp);
@@ -14,8 +23,8 @@ char *ler_texto(){
     return nome;
 }
 
-Cliente *encontrar_cliente_por_cpf(Cliente *primeiro_cliente, char *cpf){
-    Cliente *cliente_atual = primeiro_cliente;
+Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf){
+    Cliente *cliente_atual = cabeca->prox;
     
     while(cliente_atual != NULL){
         if(strcmp(cliente_atual->cpf, cpf) == 0) return cliente_atual;
@@ -26,18 +35,18 @@ Cliente *encontrar_cliente_por_cpf(Cliente *primeiro_cliente, char *cpf){
     return NULL;
 }
 
-void cadastrarCliente(Cliente **head){
+void cadastrarCliente(Cliente *cabeca){
     char buffer_nome[256];
     char cpf_temp[15];
     printf("\n--- Novo Cadastro ---\n");
     printf("CPF: ");
     scanf("%[^\n]",cpf_temp);
 
-    if(encontrar_cliente_por_cpf(*head, cpf_temp) !=NULL){
+    if(encontrar_cliente_por_cpf(cabeca, cpf_temp) !=NULL){
         printf("Erro: CPF ja cadastrado!");
         return;
     }
-    Cliente *novo_cliente =  malloc(sizeof(Cliente));
+    Cliente *novo_cliente =  calloc(1, sizeof(Cliente));
 
     if(!novo_cliente){
         printf("Erro: falha ao alocar struct\n");
@@ -56,20 +65,20 @@ void cadastrarCliente(Cliente **head){
      printf("Data de Nascimento: \n");
      scanf("%[^\n]", novo_cliente->data_nascimento);
 
-     novo_cliente->car_cabeca = NULL;
 
-     novo_cliente->prox = *head;
-     *head = novo_cliente;
+     novo_cliente->prox = cabeca->prox;
+     cabeca->prox = novo_cliente;
 
      printf("Cliente cadastrado com sucesso!\n");
 }
 
-void listarClientes(Cliente *head){
-    if(head == NULL){
+void listarClientes(Cliente *cabeca){
+
+    Cliente *cliente_atual = cabeca;
+
+    if(cliente_atual == NULL){
         printf("\n--- Lista de clientes vazia ---\n");
     }
-
-    Cliente *cliente_atual = head;
     
     printf("\n---Lista de Clientes ---\n");
     while(cliente_atual != NULL){
@@ -80,12 +89,12 @@ void listarClientes(Cliente *head){
 
 }
 
-void editarCliente(Cliente *head){
+void editarCliente(Cliente *cabeca){
     char busca_cpf[15];
     printf("\n Digite o CPF do cliente para editar: ");
     scanf("%[^\n]", busca_cpf);
 
-    Cliente *cliente_alvo = encontrar_cliente_por_cpf(head,busca_cpf);
+    Cliente *cliente_alvo = encontrar_cliente_por_cpf(cabeca, busca_cpf);
 
     if(cliente_alvo == NULL){
         printf("Cliente nao encontrado!\n");
@@ -146,13 +155,13 @@ void editarCliente(Cliente *head){
 }
 
 
-void removerCliente(Cliente **head){
+void removerCliente(Cliente *cabeca){
     char busca_cpf[15];
     printf("\n CPF para remover: ");
     scanf("%[^\n]",busca_cpf);
-
-    Cliente *cliente_atual = *head;
-    Cliente *cliente_anterior = NULL;
+    Cliente *cliente_anterior = cabeca;
+    Cliente *cliente_atual = cabeca->prox;
+    
 
     while(cliente_atual != NULL && strcmp(cliente_atual->cpf,busca_cpf) != 0 ){
         cliente_anterior = cliente_atual;
@@ -164,11 +173,7 @@ void removerCliente(Cliente **head){
         return;
     }
 
-    if(cliente_anterior == NULL){
-        *head = cliente_atual->prox;
-    } else{
-        cliente_anterior->prox = cliente_atual->prox;
-    }
+    cliente_anterior->prox = cliente_atual->prox;
 
     if(cliente_atual->nome != NULL){
         free(cliente_atual->nome);
@@ -178,17 +183,22 @@ void removerCliente(Cliente **head){
     printf("Cliente removido com sucesso!\n");
 }
 
-void liberaMemoriaTotal(Cliente **head){
-    Cliente *cliente_atual = *head;
+void liberaMemoriaTotal(Cliente **cabeca_main){
+    Cliente *cabeca = *cabeca_main;
+    if(!cabeca) return;
+
+    Cliente *cliente_atual = cabeca->prox;
 
     while(cliente_atual != NULL){
         Cliente *cliente_excluido = cliente_atual;
 
         cliente_atual = cliente_atual->prox;
 
-        free(cliente_excluido->nome);
+        if(cliente_excluido->nome) free(cliente_excluido->nome);
         free(cliente_excluido);
     }
-    *head = NULL;
+    free(cabeca);
+
+    *cabeca_main = NULL;
     printf("Memoria do sistema limpa com sucesso!\n");
 }

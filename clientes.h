@@ -22,11 +22,13 @@ typedef struct _Cliente {
     struct _Cliente *prox;
 } Cliente;
 
+Cliente * criarListaComCabeca();
 
-void cadastrarCliente(Cliente **head);
-void listarClientes(Cliente **head);
+
+void cadastrarCliente(Cliente *head);
+void listarClientes(Cliente *head);
 void editarCliente(Cliente *head);
-void removerCliente(Cliente **head);
+void removerCliente(Cliente *head);
 void liberarMemoriaTotal(Cliente **head);
 
 #endif
