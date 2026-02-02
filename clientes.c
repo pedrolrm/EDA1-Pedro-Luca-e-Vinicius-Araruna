@@ -223,5 +223,6 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
     }
 
     adiciona_produto(cabeca_carrinho, produto);
+    cabeca_carrinho->quantidade += qtd;
     printf("\nProduto adicionado com sucesso!\n");
 }
