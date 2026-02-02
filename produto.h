@@ -13,7 +13,7 @@ typedef struct Produto
 
 Produto *cria_lista_produto();
 Produto *procura_fim(Produto *inicio);
-void cria_produto(Produto *inicio);
+Produto cria_produto(Produto *inicio);
 void listar_produtos(Produto *inicio);
 Produto *procurar_produto(Produto *inicio, int codigo_produto);
 void editar_produto(Produto *inicio);
