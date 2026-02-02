@@ -1,5 +1,4 @@
 #include "clientes.h"
-#include "produto.h"
 
 Cliente *criarListaComCabeca()
 {
