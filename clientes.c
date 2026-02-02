@@ -1,33 +1,25 @@
 #include "clientes.h"
+#include "produto.h"
 
-Cliente* criarListaComCabeca(){
+Cliente *criarListaComCabeca()
+{
     Cliente *cabeca = calloc(1, sizeof(Cliente));
-    if(cabeca == NULL){
+    if (cabeca == NULL)
+    {
         printf("Erro ao criar a lista!\n");
         exit(EXIT_FAILURE);
     }
     return cabeca;
 }
 
-char *ler_texto(){
-    char temp[100];
-    scanf(" %[^\n]", temp);
-
-    char *nome = (char *)malloc((strlen(temp) + 1) * sizeof(char)); {
-        printf("\nFalha ao alocar memória\n");
-        exit(EXIT_FAILURE);
-    }
-
-    strcpy(nome, temp); 
-
-    return nome;
-}
-
-Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf){
+Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf)
+{
     Cliente *cliente_atual = cabeca->prox;
-    
-    while(cliente_atual != NULL){
-        if(strcmp(cliente_atual->cpf, cpf) == 0) return cliente_atual;
+
+    while (cliente_atual != NULL)
+    {
+        if (strcmp(cliente_atual->cpf, cpf) == 0)
+            return cliente_atual;
 
         cliente_atual = cliente_atual->prox;
     }
@@ -35,75 +27,82 @@ Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf){
     return NULL;
 }
 
-void cadastrarCliente(Cliente *cabeca){
-    char buffer_nome[256];
+void cadastrarCliente(Cliente *cabeca)
+{
     char cpf_temp[15];
     printf("\n--- Novo Cadastro ---\n");
     printf("CPF: ");
-    scanf("%[^\n]",cpf_temp);
+    scanf("%[^\n]", cpf_temp);
 
-    if(encontrar_cliente_por_cpf(cabeca, cpf_temp) !=NULL){
+    if (encontrar_cliente_por_cpf(cabeca, cpf_temp) != NULL)
+    {
         printf("Erro: CPF ja cadastrado!");
         return;
     }
-    Cliente *novo_cliente =  calloc(1, sizeof(Cliente));
+    Cliente *novo_cliente = calloc(1, sizeof(Cliente));
 
-    if(!novo_cliente){
+    if (!novo_cliente)
+    {
         printf("Erro: falha ao alocar struct\n");
         return;
     }
-     strcpy(novo_cliente->cpf, cpf_temp);
-     printf("Nome Completo: ");
-     scanf("%[^\n]",buffer_nome);
 
-     novo_cliente->nome = ler_texto();
+    novo_cliente->carrinho = cria_lista_produto();
+    novo_cliente->carrinho->quantidade = 0;
+    strcpy(novo_cliente->cpf, cpf_temp);
+    printf("Nome Completo: ");
+    novo_cliente->nome = ler_texto();
 
-     printf("Email: \n"); 
-     scanf("%[^\n]", novo_cliente->email);
-     printf("Telefone: \n");
-     scanf("%[^\n]", novo_cliente->telefone);
-     printf("Data de Nascimento: \n");
-     scanf("%[^\n]", novo_cliente->data_nascimento);
+    printf("Email: \n");
+    scanf("%[^\n]", novo_cliente->email);
+    printf("Telefone: \n");
+    scanf("%[^\n]", novo_cliente->telefone);
+    printf("Data de Nascimento: \n");
+    scanf("%[^\n]", novo_cliente->data_nascimento);
 
+    novo_cliente->prox = cabeca->prox;
+    cabeca->prox = novo_cliente;
 
-     novo_cliente->prox = cabeca->prox;
-     cabeca->prox = novo_cliente;
-
-     printf("Cliente cadastrado com sucesso!\n");
+    printf("Cliente cadastrado com sucesso!\n");
 }
 
-void listarClientes(Cliente *cabeca){
+void listarClientes(Cliente *cabeca)
+{
 
-    Cliente *cliente_atual = cabeca;
+    Cliente *cliente_atual = cabeca->prox;
 
-    if(cliente_atual == NULL){
+    if (cliente_atual == NULL)
+    {
         printf("\n--- Lista de clientes vazia ---\n");
     }
-    
+
     printf("\n---Lista de Clientes ---\n");
-    while(cliente_atual != NULL){
+    while (cliente_atual != NULL)
+    {
         printf("CPF: %s  |  Nome: %s\n", cliente_atual->cpf, cliente_atual->nome);
         cliente_atual = cliente_atual->prox;
     }
     printf("----------------------------\n");
-
 }
 
-void editarCliente(Cliente *cabeca){
+void editarCliente(Cliente *cabeca)
+{
     char busca_cpf[15];
     printf("\n Digite o CPF do cliente para editar: ");
     scanf("%[^\n]", busca_cpf);
 
     Cliente *cliente_alvo = encontrar_cliente_por_cpf(cabeca, busca_cpf);
 
-    if(cliente_alvo == NULL){
+    if (cliente_alvo == NULL)
+    {
         printf("Cliente nao encontrado!\n");
         return;
     }
 
     int opcao;
 
-    do{
+    do
+    {
         printf("\n Editando: %s\n", cliente_alvo->nome);
         printf("1. Alterar Nome\n");
         printf("2. Alterar Email\n");
@@ -113,10 +112,9 @@ void editarCliente(Cliente *cabeca){
         printf("Escolha sua opcao: ");
         scanf("%d", &opcao);
 
-        char buffer_temp[256];
-
-        switch(opcao){
-            case 1:
+        switch (opcao)
+        {
+        case 1:
             printf("Novo nome: ");
 
             free(cliente_alvo->nome);
@@ -125,57 +123,59 @@ void editarCliente(Cliente *cabeca){
             printf("Nome atualizado com sucesso!\n");
             break;
 
-            case 2:
-            printf("Novo email: (atual: %s)",cliente_alvo->email);
-            scanf("%[^\n]",cliente_alvo->email);
+        case 2:
+            printf("Novo email: (atual: %s)", cliente_alvo->email);
+            scanf("%[^\n]", cliente_alvo->email);
             printf("Email atualizado com sucesso!\n");
             break;
 
-            case 3:
-            printf("Novo telefone: (atual: %s)",cliente_alvo->telefone);
+        case 3:
+            printf("Novo telefone: (atual: %s)", cliente_alvo->telefone);
             scanf("%[^\n]", cliente_alvo->telefone);
             printf("Numero de telefone atualizado com sucesso!\n");
             break;
 
-            case 4:
+        case 4:
             printf("Nova data de nascimento: (atual: %s)", cliente_alvo->data_nascimento);
-            scanf("%[^\n]",cliente_alvo->data_nascimento);
+            scanf("%[^\n]", cliente_alvo->data_nascimento);
             printf("Data de Nascimento atualizada com sucesso!\n");
             break;
 
-            case 0:
+        case 0:
             printf("Finalizando edicao!\n");
             break;
 
-            default:
+        default:
             printf("Opcao invalida!\n");
             break;
         }
     } while (opcao != 0);
 }
 
-
-void removerCliente(Cliente *cabeca){
+void removerCliente(Cliente *cabeca)
+{
     char busca_cpf[15];
     printf("\n CPF para remover: ");
-    scanf("%[^\n]",busca_cpf);
+    scanf("%[^\n]", busca_cpf);
     Cliente *cliente_anterior = cabeca;
     Cliente *cliente_atual = cabeca->prox;
-    
 
-    while(cliente_atual != NULL && strcmp(cliente_atual->cpf,busca_cpf) != 0 ){
+    while (cliente_atual != NULL && strcmp(cliente_atual->cpf, busca_cpf) != 0)
+    {
         cliente_anterior = cliente_atual;
         cliente_atual = cliente_atual->prox;
     }
 
-    if(cliente_atual == NULL){
+    if (cliente_atual == NULL)
+    {
         printf("CPF nao encontrado!\n");
         return;
     }
 
     cliente_anterior->prox = cliente_atual->prox;
 
-    if(cliente_atual->nome != NULL){
+    if (cliente_atual->nome != NULL)
+    {
         free(cliente_atual->nome);
     }
     free(cliente_atual);
@@ -183,18 +183,22 @@ void removerCliente(Cliente *cabeca){
     printf("Cliente removido com sucesso!\n");
 }
 
-void liberaMemoriaTotal(Cliente **cabeca_main){
+void liberaMemoriaTotal(Cliente **cabeca_main)
+{
     Cliente *cabeca = *cabeca_main;
-    if(!cabeca) return;
+    if (!cabeca)
+        return;
 
     Cliente *cliente_atual = cabeca->prox;
 
-    while(cliente_atual != NULL){
+    while (cliente_atual != NULL)
+    {
         Cliente *cliente_excluido = cliente_atual;
 
         cliente_atual = cliente_atual->prox;
 
-        if(cliente_excluido->nome) free(cliente_excluido->nome);
+        if (cliente_excluido->nome)
+            free(cliente_excluido->nome);
         free(cliente_excluido);
     }
     free(cabeca);
