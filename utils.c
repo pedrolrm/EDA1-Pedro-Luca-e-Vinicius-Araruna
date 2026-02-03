@@ -18,3 +18,8 @@ char *ler_texto()
 
     return nome;
 }
+
+void limpar_buffer(){
+    int c;
+    while((c = getchar()) != '\n' &&  c != EOF); // c!= EOF para nao entrar em loop infinito
+}
