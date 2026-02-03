@@ -126,6 +126,7 @@ void editar_produto(Produto *cabeca)
         {
             printf("\nDigite um valor válido para o preço!\n");
             printf("\nDigite o novo preço para o produto: ");
+            limpar_buffer();
         }
 
         produto_editado->preco_produto = novo_preco;
@@ -139,6 +140,7 @@ void editar_produto(Produto *cabeca)
         {
             printf("\nDigite uma quantidade válida para o estoque!\n");
             printf("\nDigite a nova quantidade em estoque: ");
+            limpar_buffer();
         }
 
         produto_editado->quantidade = nova_quantidade;
