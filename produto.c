@@ -170,7 +170,8 @@ int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida){
     Produto *p = procurar_produto(cabeca,codigo);
 
     if(p == NULL || p->quantidade < qtd_requerida){
-        return NULL;
+        printf("Estoque insuficiente ou produto nao encontrado.\n");
+        return 0;
     }
 
     p->quantidade -= qtd_requerida;
