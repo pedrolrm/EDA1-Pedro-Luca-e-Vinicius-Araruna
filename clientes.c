@@ -32,6 +32,7 @@ void cadastrarCliente(Cliente *cabeca)
     printf("\n--- Novo Cadastro ---\n");
     printf("CPF: ");
     scanf("%[^\n]", cpf_temp);
+    getchar();
 
     if (encontrar_cliente_por_cpf(cabeca, cpf_temp) != NULL)
     {
@@ -54,10 +55,13 @@ void cadastrarCliente(Cliente *cabeca)
 
     printf("Email: \n");
     scanf("%[^\n]", novo_cliente->email);
+    getchar();
     printf("Telefone: \n");
     scanf("%[^\n]", novo_cliente->telefone);
+    getchar();
     printf("Data de Nascimento: \n");
     scanf("%[^\n]", novo_cliente->data_nascimento);
+    getchar();
 
     novo_cliente->prox = cabeca->prox;
     cabeca->prox = novo_cliente;
@@ -89,6 +93,7 @@ void editarCliente(Cliente *cabeca)
     char busca_cpf[15];
     printf("\n Digite o CPF do cliente para editar: ");
     scanf("%[^\n]", busca_cpf);
+    getchar();
 
     Cliente *cliente_alvo = encontrar_cliente_por_cpf(cabeca, busca_cpf);
 
