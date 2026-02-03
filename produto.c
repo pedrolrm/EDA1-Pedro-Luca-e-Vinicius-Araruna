@@ -55,7 +55,7 @@ Produto *cria_produto(Produto *cabeca)
     {
         printf("\nUm produto com esse código já está cadastrado!");
         free(novo_produto);
-        return;
+        return NULL;
     }
     printf("\nDigte o nome do produto: ");
     novo_produto->nome = ler_texto();
