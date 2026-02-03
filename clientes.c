@@ -31,8 +31,8 @@ void cadastrarCliente(Cliente *cabeca)
     char cpf_temp[15];
     printf("\n--- Novo Cadastro ---\n");
     printf("CPF: ");
-    scanf("%[^\n]", cpf_temp);
-    getchar();
+    scanf(" %[^\n]", cpf_temp);
+    limpar_buffer();
 
     if (encontrar_cliente_por_cpf(cabeca, cpf_temp) != NULL)
     {
@@ -54,14 +54,16 @@ void cadastrarCliente(Cliente *cabeca)
     novo_cliente->nome = ler_texto();
 
     printf("Email: \n");
-    scanf("%[^\n]", novo_cliente->email);
-    getchar();
+    scanf(" %[^\n]", novo_cliente->email);
+    limpar_buffer();
+
     printf("Telefone: \n");
-    scanf("%[^\n]", novo_cliente->telefone);
-    getchar();
+    scanf(" %[^\n]", novo_cliente->telefone);
+    limpar_buffer();
+
     printf("Data de Nascimento: \n");
-    scanf("%[^\n]", novo_cliente->data_nascimento);
-    getchar();
+    scanf(" %[^\n]", novo_cliente->data_nascimento);
+    limpar_buffer();
 
     novo_cliente->prox = cabeca->prox;
     cabeca->prox = novo_cliente;
@@ -92,8 +94,8 @@ void editarCliente(Cliente *cabeca)
 {
     char busca_cpf[15];
     printf("\n Digite o CPF do cliente para editar: ");
-    scanf("%[^\n]", busca_cpf);
-    getchar();
+    scanf(" %[^\n]", busca_cpf);
+    limpar_buffer();
 
     Cliente *cliente_alvo = encontrar_cliente_por_cpf(cabeca, busca_cpf);
 
@@ -115,6 +117,7 @@ void editarCliente(Cliente *cabeca)
         printf("0. Voltar ao Menu Principal\n");
         printf("Escolha sua opcao: ");
         scanf("%d", &opcao);
+        limpar_buffer();
 
         switch (opcao)
         {
@@ -129,19 +132,22 @@ void editarCliente(Cliente *cabeca)
 
         case 2:
             printf("Novo email: (atual: %s)", cliente_alvo->email);
-            scanf("%[^\n]", cliente_alvo->email);
+            scanf(" %[^\n]", cliente_alvo->email);
+            limpar_buffer();
             printf("Email atualizado com sucesso!\n");
             break;
 
         case 3:
             printf("Novo telefone: (atual: %s)", cliente_alvo->telefone);
-            scanf("%[^\n]", cliente_alvo->telefone);
+            scanf(" %[^\n]", cliente_alvo->telefone);
+            limpar_buffer();
             printf("Numero de telefone atualizado com sucesso!\n");
             break;
 
         case 4:
             printf("Nova data de nascimento: (atual: %s)", cliente_alvo->data_nascimento);
-            scanf("%[^\n]", cliente_alvo->data_nascimento);
+            scanf(" %[^\n]", cliente_alvo->data_nascimento);
+            limpar_buffer();
             printf("Data de Nascimento atualizada com sucesso!\n");
             break;
 
@@ -160,7 +166,8 @@ void removerCliente(Cliente *cabeca)
 {
     char busca_cpf[15];
     printf("\n CPF para remover: ");
-    scanf("%[^\n]", busca_cpf);
+    scanf(" %[^\n]", busca_cpf);
+    limpar_buffer();
     Cliente *cliente_anterior = cabeca;
     Cliente *cliente_atual = cabeca->prox;
 

@@ -57,6 +57,7 @@ Produto *cria_produto(Produto *cabeca)
 
     printf("\nDigite o código do produto: ");
     scanf("%d", &novo_produto->codigo_produto);
+    limpar_buffer();
     if (procurar_produto(cabeca, novo_produto->codigo_produto) != NULL) // Usa a função de busca para ver se o código já está cadastrado
     {
         printf("\nUm produto com esse código já está cadastrado!");
@@ -66,25 +67,26 @@ Produto *cria_produto(Produto *cabeca)
     printf("\nDigte o nome do produto: ");
     novo_produto->nome = ler_texto();
 
-    printf("\nDigite o preço do produto: ");
-    scanf("%f", &novo_produto->preco_produto);
-    
-    if (novo_produto->preco_produto <= 0) {
-        printf("\nErro: Preço deve ser maior que zero!\n");
-        free(novo_produto->nome);
-        free(novo_produto);
-        return NULL;
-    }
+    do {
+        printf("Digite o preço do produto: ");
+        scanf("%f", &novo_produto->preco_produto);
+        limpar_buffer();
 
-    printf("\nDigite a quantidade incial em estoque: ");
-    scanf("%d", &novo_produto->quantidade);
-    
-    if (novo_produto->quantidade < 0) {
-        printf("\nErro: Quantidade não pode ser negativa!\n");
-        free(novo_produto->nome);
-        free(novo_produto);
-        return NULL;
-    }
+        if(novo_produto->preco_produto <= 0)
+        printf("Erro: Preço deve ser positivo.\n");
+        
+    } while(novo_produto->preco_produto <= 0);
+   
+
+    do {
+        printf("Digite a quantidade inicial em estoque: ");
+        scanf("%d", &novo_produto->quantidade);
+        limpar_buffer();
+
+        if(novo_produto->quantidade < 0)
+         printf("Erro: Quantidade não pode ser negativa.\n");
+
+    } while(novo_produto->quantidade < 0);
 
     novo_produto->prox = NULL;
 
