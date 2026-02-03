@@ -7,6 +7,12 @@
 #include "produto.h"
 #include "utils.h"
 
+typedef struct ItemCarrinho
+{
+    Produto *produto;
+    int quantidade;
+    struct ItemCarrinho *prox;
+} ItemCarrinho;
 typedef struct _Cliente
 {
     char cpf[15];
@@ -15,18 +21,24 @@ typedef struct _Cliente
     char telefone[20];
     char data_nascimento[12];
 
-    Produto *carrinho;
+    ItemCarrinho *carrinho;
     struct _Cliente *prox;
 } Cliente;
 
+// funções de cliente
 Cliente *criarListaComCabeca();
-
 void cadastrarCliente(Cliente *head);
 void listarClientes(Cliente *head);
 void editarCliente(Cliente *head);
 void removerCliente(Cliente *head);
-void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd);
 Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf);
 void liberaMemoriaTotal(Cliente **head);
+
+// funções de carrinho
+ItemCarrinho *cria_lista_carrinho();
+void listar_carrinho(ItemCarrinho *carrinho);
+float calcular_total_carrinho(ItemCarrinho *carrinho);
+void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd);
+void remover_do_carrinho(ItemCarrinho *carrinho, int codigo_produto);
 
 #endif
