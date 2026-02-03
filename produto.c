@@ -162,3 +162,25 @@ void adiciona_produto(Produto *cabeca, Produto *novo_produto)
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
     cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
 }
+
+
+// FUNCOES DE ESTOQUE
+
+int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida){
+    Produto *p = procurar_produto(cabeca,codigo);
+
+    if(p == NULL || p->quantidade < qtd_requerida){
+        return NULL;
+    }
+
+    p->quantidade -= qtd_requerida;
+    return 1;
+}
+
+void devolverEstoque(Produto *cabeca, int codigo, int qtd_devolvida){
+    Produto *p = procurar_produto(cabeca,codigo);
+
+    if(p != NULL){
+        p->quantidade += qtd_devolvida;
+    }
+}
