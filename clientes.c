@@ -203,6 +203,9 @@ void liberaMemoriaTotal(Cliente **cabeca_main)
 
         if (cliente_excluido->nome)
             free(cliente_excluido->nome);
+        if( cliente_excluido->carrinho != NULL)
+            apagar_lista_produtos(cliente_excluido->carrinho);
+
         free(cliente_excluido);
     }
     free(cabeca);
