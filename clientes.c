@@ -198,6 +198,13 @@ void liberaMemoriaTotal(Cliente **cabeca_main)
 
         if (cliente_excluido->nome)
             free(cliente_excluido->nome);
+        ItemCarrinho *item_atual = cliente_excluido->carrinho->prox;
+        while (item_atual != NULL)
+        {
+            ItemCarrinho *item_excluido = item_atual;
+            item_atual = item_atual->prox;
+            free(item_excluido);
+        }
         free(cliente_excluido->carrinho);
         free(cliente_excluido);
     }
