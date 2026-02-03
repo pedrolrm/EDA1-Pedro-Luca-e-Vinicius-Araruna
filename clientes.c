@@ -198,6 +198,7 @@ void liberaMemoriaTotal(Cliente **cabeca_main)
 
         if (cliente_excluido->nome)
             free(cliente_excluido->nome);
+        free(cliente_excluido->carrinho);
         free(cliente_excluido);
     }
     free(cabeca);
@@ -207,6 +208,70 @@ void liberaMemoriaTotal(Cliente **cabeca_main)
 }
 
 // Funções de carrinho
+
+ItemCarrinho *cria_lista_carrinho()
+{
+    ItemCarrinho *cabeca = (ItemCarrinho *)malloc(sizeof(ItemCarrinho));
+    if (cabeca == NULL)
+    {
+        printf("\nFalha ao alocar memória para o carrinho\n");
+        exit(EXIT_FAILURE);
+    }
+    cabeca->prox == NULL;
+    cabeca->produto == NULL;
+    return cabeca;
+}
+
+void listar_carrinho(ItemCarrinho *cabeca)
+{
+    ItemCarrinho *atual = cabeca->prox;
+    if (atual == NULL)
+    {
+        printf("\nCarrinho Vazio\n");
+        return;
+    }
+
+    printf("\nProdutos no carrinho: \n");
+    while (atual != NULL)
+    {
+        printf("\nCódigo: %d | Nome: %s | | Quantidade: %d | Preço (Unidade): R$ %.2f | Preço (Subtotal): R$ %.2f\n",
+               atual->produto->codigo_produto, atual->produto->nome, atual->quantidade,
+               atual->produto->preco_produto, atual->quantidade * atual->produto->preco_produto);
+        atual = atual->prox;
+    }
+    printf("Total: %.2f\n", calcular_total_carrinho(cabeca));
+}
+
+float calcular_total_carrinho(ItemCarrinho *cabeca)
+{
+    float total = 0.0;
+    ItemCarrinho *atual = cabeca->prox;
+    while (atual != NULL)
+    {
+        total += atual->quantidade * atual->produto->preco_produto;
+        atual = atual->prox;
+    }
+    return total;
+}
+
+void remover_do_carrinho(ItemCarrinho *carrinho, int codigo_produto)
+{
+    ItemCarrinho *anterior = carrinho;
+    ItemCarrinho *atual = carrinho->prox;
+    while (atual != NULL && atual->produto->codigo_produto != codigo_produto)
+    {
+        anterior = atual;
+        atual = atual->prox;
+    }
+    if (atual == NULL)
+    {
+        printf("Produto não encontrado no carrinho.\n");
+        return;
+    }
+    anterior->prox = atual->prox;
+    free(atual);
+    printf("Produto removido do carrinho.\n");
+}
 
 void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
 {
