@@ -63,6 +63,11 @@ Produto *cria_produto(Produto *cabeca)
     printf("\nDigite o preço do produto: ");
     scanf("%f", &novo_produto->preco_produto);
 
+    printf("\nDigite a quantidade incial em estoque: ");
+    scanf("%d",&novo_produto->quantidade);
+
+    novo_produto->prox = NULL;
+    
     return novo_produto;
 }
 
