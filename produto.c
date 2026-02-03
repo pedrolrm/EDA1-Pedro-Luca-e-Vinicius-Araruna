@@ -22,12 +22,18 @@ Produto *cria_lista_produto()
 void listar_produtos(Produto *cabeca)
 {
     Produto *atual = cabeca->prox;
+    if (atual == NULL) {
+        printf("\n--- Lista de Produtos Vazia ---\n");
+        return;
+    }
+    printf("\n--- Lista de Produtos ---\n");
     while (atual != NULL)
     {
         printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", atual->codigo_produto, atual->nome, atual->preco_produto, atual->quantidade);
 
         atual = atual->prox;
     }
+    printf("----------------------------\n");
 }
 
 Produto *procurar_produto(Produto *cabeca, int codigo)
@@ -62,9 +68,23 @@ Produto *cria_produto(Produto *cabeca)
 
     printf("\nDigite o preço do produto: ");
     scanf("%f", &novo_produto->preco_produto);
+    
+    if (novo_produto->preco_produto <= 0) {
+        printf("\nErro: Preço deve ser maior que zero!\n");
+        free(novo_produto->nome);
+        free(novo_produto);
+        return NULL;
+    }
 
     printf("\nDigite a quantidade incial em estoque: ");
-    scanf("%d",&novo_produto->quantidade);
+    scanf("%d", &novo_produto->quantidade);
+    
+    if (novo_produto->quantidade < 0) {
+        printf("\nErro: Quantidade não pode ser negativa!\n");
+        free(novo_produto->nome);
+        free(novo_produto);
+        return NULL;
+    }
 
     novo_produto->prox = NULL;
 
