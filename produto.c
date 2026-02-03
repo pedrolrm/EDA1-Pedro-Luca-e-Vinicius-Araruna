@@ -129,6 +129,13 @@ void editar_produto(Produto *cabeca)
         float novo_preco;
         printf("\nDigite o novo preço para o produto: ");
         scanf("%f", &novo_preco);
+        while (novo_preco <= 0)
+        {
+            printf("\nDigite um valor válido para o preço!\n");
+            printf("\nDigite o novo preço para o produto: ");
+            scanf("%f", &novo_preco);
+        }
+
         produto_editado->preco_produto = novo_preco;
     }
 
@@ -137,6 +144,13 @@ void editar_produto(Produto *cabeca)
         int nova_quantidade;
         printf("\nDigite a nova quantidade em estoque: ");
         scanf("%d", &nova_quantidade);
+        while (nova_quantidade < 0)
+        {
+            printf("\nDigite uma quantidade válida para o estoque!\n");
+            printf("\nDigite a nova quantidade em estoque: ");
+            scanf("%d", &nova_quantidade);
+        }
+
         produto_editado->quantidade = nova_quantidade;
     }
 }
