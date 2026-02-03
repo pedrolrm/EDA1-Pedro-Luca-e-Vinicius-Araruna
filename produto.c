@@ -40,7 +40,7 @@ Produto *procurar_produto(Produto *cabeca, int codigo)
     return atual;
 }
 
-Produto *cria_produto(Produto *cabeca)
+void cria_produto(Produto *cabeca)
 {
     Produto *novo_produto = (Produto *)(malloc(sizeof(Produto))); // Cria novo produto solto na memória
     if (novo_produto == NULL)
@@ -63,7 +63,12 @@ Produto *cria_produto(Produto *cabeca)
     printf("\nDigite o preço do produto: ");
     scanf("%f", &novo_produto->preco_produto);
 
-    return novo_produto;
+    printf("\nDigite a quantidade em estoque do produto: ");
+    scanf("%d", novo_produto->quantidade);
+
+    // Lógica de inserção na lista
+    novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
+    cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
 }
 
 void editar_produto(Produto *cabeca)
@@ -139,21 +144,4 @@ void apagar_lista_produtos(Produto *cabeca)
     free(cabeca);
     printf("\nLista apagada com sucesso!\n");
     return;
-}
-
-Produto *procura_fim(Produto *cabeca)
-{
-    Produto *fim = cabeca;
-    while (fim->prox != NULL)
-    {
-        fim = fim->prox;
-    }
-    return fim;
-}
-
-void adiciona_produto(Produto *cabeca, Produto *novo_produto)
-{
-    // Lógica de inserção na lista
-    novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
-    cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
 }
