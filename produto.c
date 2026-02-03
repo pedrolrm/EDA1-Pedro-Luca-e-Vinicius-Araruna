@@ -22,7 +22,8 @@ Produto *cria_lista_produto()
 void listar_produtos(Produto *cabeca)
 {
     Produto *atual = cabeca->prox;
-    if (atual == NULL) {
+    if (atual == NULL)
+    {
         printf("\n--- Lista de Produtos Vazia ---\n");
         return;
     }
@@ -62,31 +63,32 @@ void cria_produto(Produto *cabeca)
     {
         printf("\nUm produto com esse código já está cadastrado!");
         free(novo_produto);
-        return NULL;
+        return;
     }
     printf("\nDigte o nome do produto: ");
     novo_produto->nome = ler_texto();
 
-    do {
+    do
+    {
         printf("Digite o preço do produto: ");
         scanf("%f", &novo_produto->preco_produto);
         limpar_buffer();
 
-        if(novo_produto->preco_produto <= 0)
-        printf("Erro: Preço deve ser positivo.\n");
-        
-    } while(novo_produto->preco_produto <= 0);
-   
+        if (novo_produto->preco_produto <= 0)
+            printf("Erro: Preço deve ser positivo.\n");
 
-    do {
+    } while (novo_produto->preco_produto <= 0);
+
+    do
+    {
         printf("Digite a quantidade inicial em estoque: ");
         scanf("%d", &novo_produto->quantidade);
         limpar_buffer();
 
-        if(novo_produto->quantidade < 0)
-         printf("Erro: Quantidade não pode ser negativa.\n");
+        if (novo_produto->quantidade < 0)
+            printf("Erro: Quantidade não pode ser negativa.\n");
 
-    } while(novo_produto->quantidade < 0);
+    } while (novo_produto->quantidade < 0);
 
     // Lógica de inserção na lista
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
@@ -168,13 +170,14 @@ void apagar_lista_produtos(Produto *cabeca)
     return;
 }
 
-
 // FUNCOES DE ESTOQUE
 
-int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida){
-    Produto *p = procurar_produto(cabeca,codigo);
+int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida)
+{
+    Produto *p = procurar_produto(cabeca, codigo);
 
-    if(p == NULL || p->quantidade < qtd_requerida){
+    if (p == NULL || p->quantidade < qtd_requerida)
+    {
         printf("Estoque insuficiente ou produto nao encontrado.\n");
         return 0;
     }
@@ -183,10 +186,12 @@ int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida){
     return 1;
 }
 
-void devolverEstoque(Produto *cabeca, int codigo, int qtd_devolvida){
-    Produto *p = procurar_produto(cabeca,codigo);
+void devolverEstoque(Produto *cabeca, int codigo, int qtd_devolvida)
+{
+    Produto *p = procurar_produto(cabeca, codigo);
 
-    if(p != NULL){
+    if (p != NULL)
+    {
         p->quantidade += qtd_devolvida;
     }
 }

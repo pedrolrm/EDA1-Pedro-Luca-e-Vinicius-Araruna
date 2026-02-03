@@ -47,7 +47,7 @@ void cadastrarCliente(Cliente *cabeca)
         return;
     }
 
-    novo_cliente->carrinho = cria_lista_produto();
+    novo_cliente->carrinho = cria_lista_carrinho();
     novo_cliente->carrinho->quantidade = 0;
     strcpy(novo_cliente->cpf, cpf_temp);
     printf("Nome Completo: ");

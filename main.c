@@ -41,16 +41,8 @@ int main()
                 switch (opcao_sub)
                 {
                 case 1:
-                    Produto *novo_produto = cria_produto(cabeca_lista_produtos);
-                    if (novo_produto != NULL)
-                    {
-                        adiciona_produto(cabeca_lista_produtos, novo_produto);
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    cria_produto(cabeca_lista_produtos);
+                    break;
 
                 case 2:
                     listar_produtos(cabeca_lista_produtos);
@@ -91,26 +83,38 @@ int main()
             } while (opcao_sub != 0);
             break;
 
-            //MODULO DE CLIENTE
+            // MODULO DE CLIENTE
         case 2:
-            do{
+            do
+            {
                 printf("\n--- MENU CLIENTES ---\n");
                 printf("1. Cadastrar Cliente\n");
                 printf("2. Listar Clientes\n");
                 printf("3. Editar Cliente\n");
                 printf("0. Voltar\n");
-                scanf("%d",opcao_sub);
+                scanf("%d", &opcao_sub);
                 limpar_buffer();
 
-                switch(opcao_sub){
-                    case 1: cadastrarCliente(cabeca_lista_clientes); break;
-                    case 2: listarClientes(cabeca_lista_clientes); break;
-                    case 3: editarCliente(cabeca_lista_clientes); break;
-                    case 4: removerCliente(cabeca_lista_clientes); break;
-                    case 0: break;
-                    default: printf("Opcao invalida\n");
+                switch (opcao_sub)
+                {
+                case 1:
+                    cadastrarCliente(cabeca_lista_clientes);
+                    break;
+                case 2:
+                    listarClientes(cabeca_lista_clientes);
+                    break;
+                case 3:
+                    editarCliente(cabeca_lista_clientes);
+                    break;
+                case 4:
+                    removerCliente(cabeca_lista_clientes);
+                    break;
+                case 0:
+                    break;
+                default:
+                    printf("Opcao invalida\n");
                 }
-            } while(opcao_sub != 0);
+            } while (opcao_sub != 0);
             break;
 
         case 0:
@@ -123,7 +127,7 @@ int main()
 
     } while (opcao_principal != 0);
 
-    apagar_lista_produtos(cabeca_lista_produtos); 
+    apagar_lista_produtos(cabeca_lista_produtos);
     liberaMemoriaTotal(&cabeca_lista_clientes);
     return 0;
 }
