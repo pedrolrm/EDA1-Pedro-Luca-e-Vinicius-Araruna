@@ -22,12 +22,18 @@ Produto *cria_lista_produto()
 void listar_produtos(Produto *cabeca)
 {
     Produto *atual = cabeca->prox;
+    if (atual == NULL) {
+        printf("\n--- Lista de Produtos Vazia ---\n");
+        return;
+    }
+    printf("\n--- Lista de Produtos ---\n");
     while (atual != NULL)
     {
         printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", atual->codigo_produto, atual->nome, atual->preco_produto, atual->quantidade);
 
         atual = atual->prox;
     }
+    printf("----------------------------\n");
 }
 
 Produto *procurar_produto(Produto *cabeca, int codigo)
@@ -51,6 +57,7 @@ void cria_produto(Produto *cabeca)
 
     printf("\nDigite o código do produto: ");
     scanf("%d", &novo_produto->codigo_produto);
+    limpar_buffer();
     if (procurar_produto(cabeca, novo_produto->codigo_produto) != NULL) // Usa a função de busca para ver se o código já está cadastrado
     {
         printf("\nUm produto com esse código já está cadastrado!");
@@ -60,11 +67,26 @@ void cria_produto(Produto *cabeca)
     printf("\nDigte o nome do produto: ");
     novo_produto->nome = ler_texto();
 
-    printf("\nDigite o preço do produto: ");
-    scanf("%f", &novo_produto->preco_produto);
+    do {
+        printf("Digite o preço do produto: ");
+        scanf("%f", &novo_produto->preco_produto);
+        limpar_buffer();
 
-    printf("\nDigite a quantidade em estoque do produto: ");
-    scanf("%d", novo_produto->quantidade);
+        if(novo_produto->preco_produto <= 0)
+        printf("Erro: Preço deve ser positivo.\n");
+        
+    } while(novo_produto->preco_produto <= 0);
+   
+
+    do {
+        printf("Digite a quantidade inicial em estoque: ");
+        scanf("%d", &novo_produto->quantidade);
+        limpar_buffer();
+
+        if(novo_produto->quantidade < 0)
+         printf("Erro: Quantidade não pode ser negativa.\n");
+
+    } while(novo_produto->quantidade < 0);
 
     // Lógica de inserção na lista
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
@@ -153,7 +175,8 @@ int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida){
     Produto *p = procurar_produto(cabeca,codigo);
 
     if(p == NULL || p->quantidade < qtd_requerida){
-        return NULL;
+        printf("Estoque insuficiente ou produto nao encontrado.\n");
+        return 0;
     }
 
     p->quantidade -= qtd_requerida;

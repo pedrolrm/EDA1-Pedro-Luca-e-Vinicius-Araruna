@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include "clientes.h"
 #include "produto.h"
+#include "utils.h"
 
 int main()
 {
     int opcao_principal, opcao_sub;
     int codigo_temp;
     Produto *cabeca_lista_produtos = cria_lista_produto();
+    Cliente *cabeca_lista_clientes = criarListaComCabeca();
 
     do
     {
@@ -89,7 +91,27 @@ int main()
             } while (opcao_sub != 0);
             break;
 
-            // fim do modulo de produtos
+            //MODULO DE CLIENTE
+        case 2:
+            do{
+                printf("\n--- MENU CLIENTES ---\n");
+                printf("1. Cadastrar Cliente\n");
+                printf("2. Listar Clientes\n");
+                printf("3. Editar Cliente\n");
+                printf("0. Voltar\n");
+                scanf("%d",opcao_sub);
+                limpar_buffer();
+
+                switch(opcao_sub){
+                    case 1: cadastrarCliente(cabeca_lista_clientes); break;
+                    case 2: listarClientes(cabeca_lista_clientes); break;
+                    case 3: editarCliente(cabeca_lista_clientes); break;
+                    case 4: removerCliente(cabeca_lista_clientes); break;
+                    case 0: break;
+                    default: printf("Opcao invalida\n");
+                }
+            } while(opcao_sub != 0);
+            break;
 
         case 0:
             printf("Saindo do sistema...\n");
@@ -101,6 +123,7 @@ int main()
 
     } while (opcao_principal != 0);
 
-    apagar_lista_produtos(cabeca_lista_produtos); // free na memória
+    apagar_lista_produtos(cabeca_lista_produtos); 
+    liberaMemoriaTotal(&cabeca_lista_clientes);
     return 0;
 }
