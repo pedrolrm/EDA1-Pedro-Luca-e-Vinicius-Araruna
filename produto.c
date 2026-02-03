@@ -24,7 +24,7 @@ void listar_produtos(Produto *cabeca)
     Produto *atual = cabeca->prox;
     while (atual != NULL)
     {
-        printf("Código: %d | Nome: %s | Preço: R$ %.2f \n", atual->codigo_produto, atual->nome, atual->preco_produto);
+        printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", atual->codigo_produto, atual->nome, atual->preco_produto, atual->quantidade);
 
         atual = atual->prox;
     }
@@ -144,4 +144,26 @@ void apagar_lista_produtos(Produto *cabeca)
     free(cabeca);
     printf("\nLista apagada com sucesso!\n");
     return;
+}
+
+
+// FUNCOES DE ESTOQUE
+
+int baixarEstoque(Produto *cabeca, int codigo, int qtd_requerida){
+    Produto *p = procurar_produto(cabeca,codigo);
+
+    if(p == NULL || p->quantidade < qtd_requerida){
+        return NULL;
+    }
+
+    p->quantidade -= qtd_requerida;
+    return 1;
+}
+
+void devolverEstoque(Produto *cabeca, int codigo, int qtd_devolvida){
+    Produto *p = procurar_produto(cabeca,codigo);
+
+    if(p != NULL){
+        p->quantidade += qtd_devolvida;
+    }
 }
