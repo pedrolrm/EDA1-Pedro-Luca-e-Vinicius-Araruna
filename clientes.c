@@ -206,22 +206,45 @@ void liberaMemoriaTotal(Cliente **cabeca_main)
     printf("Memoria do sistema limpa com sucesso!\n");
 }
 
+// Funções de carrinho
+
 void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
 {
-    if (cliente_alvo == NULL)
-        return;
-
-    Produto *cabeca_carrinho = cliente_alvo->carrinho;
-    Produto *item_no_carrinho = procurar_produto(cabeca_carrinho, produto->codigo_produto);
-    if (item_no_carrinho != NULL)
+    if (cliente_alvo == NULL || produto == NULL || qtd <= 0)
     {
-        printf("\nProduto adicionado com sucesso!\n");
-        item_no_carrinho->quantidade += qtd;
-        cabeca_carrinho->quantidade += qtd;
+        printf("\nFalha ao adicionar produto ao carrinho\n");
         return;
     }
 
-    adiciona_produto(cabeca_carrinho, produto);
-    cabeca_carrinho->quantidade += qtd;
-    printf("\nProduto adicionado com sucesso!\n");
+    if (produto->quantidade < qtd)
+    {
+        printf("Sem capacidade no estoque para o produto %s", produto->nome);
+        return;
+    }
+
+    ItemCarrinho *cabeca_carrinho = cliente_alvo->carrinho;
+    ItemCarrinho *atual = cabeca_carrinho->prox;
+
+    while (atual != NULL)
+    {
+        if (atual->produto->codigo_produto == produto->codigo_produto)
+        {
+            atual->quantidade += qtd;
+            printf("\nProduto adicionado ao carrinho!\n");
+            return;
+        }
+        atual = atual->prox;
+    }
+
+    ItemCarrinho *novo_item = (ItemCarrinho *)malloc(sizeof(ItemCarrinho));
+    if (novo_item == NULL)
+    {
+        printf("Falha ao alocar memória para item do carrinho.\n");
+        return;
+    }
+    novo_item->produto = produto;
+    novo_item->quantidade = qtd;
+    novo_item->prox = cabeca_carrinho->prox;
+    cabeca_carrinho->prox = novo_item;
+    printf("Produto adicionado ao carrinho!\n");
 }
