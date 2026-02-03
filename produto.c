@@ -73,27 +73,21 @@ void cria_produto(Produto *cabeca)
     printf("\nDigte o nome do produto: ");
     novo_produto->nome = ler_texto();
 
-    do
+    printf("\nDigite o preço do produto: ");
+    while (scanf("%f", &novo_produto->preco_produto) != 1 || novo_produto->preco_produto <= 0)
     {
+        printf("\nERRO: Digite um valor válido!\n");
         printf("\nDigite o preço do produto: ");
-        scanf("%f", &novo_produto->preco_produto);
         limpar_buffer();
+    }
 
-        if (novo_produto->preco_produto <= 0)
-            printf("\nErro: Preço deve ser positivo.\n");
-
-    } while (novo_produto->preco_produto <= 0);
-
-    do
+    printf("\nDigite a quantidade inicial em estoque: ");
+    while (scanf("%d", &novo_produto->quantidade) != 1 || novo_produto->quantidade < 0)
     {
+        printf("\nERRO: Digite um valor válido!\n");
         printf("\nDigite a quantidade inicial em estoque: ");
-        scanf("%d", &novo_produto->quantidade);
         limpar_buffer();
-
-        if (novo_produto->quantidade < 0)
-            printf("Erro: Quantidade não pode ser negativa.\n");
-
-    } while (novo_produto->quantidade < 0);
+    }
 
     // Lógica de inserção na lista
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
@@ -128,12 +122,10 @@ void editar_produto(Produto *cabeca)
     {
         float novo_preco;
         printf("\nDigite o novo preço para o produto: ");
-        scanf("%f", &novo_preco);
-        while (novo_preco <= 0)
+        while (scanf("%f", &novo_preco) != 1 || novo_preco <= 0)
         {
             printf("\nDigite um valor válido para o preço!\n");
             printf("\nDigite o novo preço para o produto: ");
-            scanf("%f", &novo_preco);
         }
 
         produto_editado->preco_produto = novo_preco;
@@ -143,12 +135,10 @@ void editar_produto(Produto *cabeca)
     {
         int nova_quantidade;
         printf("\nDigite a nova quantidade em estoque: ");
-        scanf("%d", &nova_quantidade);
-        while (nova_quantidade < 0)
+        while (scanf("%d", &nova_quantidade) != 1 || nova_quantidade < 0)
         {
             printf("\nDigite uma quantidade válida para o estoque!\n");
             printf("\nDigite a nova quantidade em estoque: ");
-            scanf("%d", &nova_quantidade);
         }
 
         produto_editado->quantidade = nova_quantidade;
