@@ -217,8 +217,8 @@ ItemCarrinho *cria_lista_carrinho()
         printf("\nFalha ao alocar memória para o carrinho\n");
         exit(EXIT_FAILURE);
     }
-    cabeca->prox == NULL;
-    cabeca->produto == NULL;
+    cabeca->prox = NULL;
+    cabeca->produto = NULL;
     return cabeca;
 }
 
