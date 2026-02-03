@@ -18,7 +18,7 @@ int main()
         printf("2. Gerenciamento de Clientes\n");
         printf("3. Modo Compra (Carrinho)\n");
         printf("0. Sair\n");
-        printf("Escolha uma opcao: ");
+        printf("Escolha uma opção: \n");
         scanf("%d", &opcao_principal);
 
         switch (opcao_principal)
@@ -31,17 +31,18 @@ int main()
                 printf("\n--- MENU PRODUTOS ---\n");
                 printf("1. Cadastrar Produto\n");
                 printf("2. Listar Produtos\n");
-                printf("3. Buscar Produto por Codigo\n");
+                printf("3. Buscar Produto por Código\n");
                 printf("4. Editar Produto\n");
                 printf("5. Remover Produto\n");
                 printf("0. Voltar\n");
-                printf("Opcao: ");
+                printf("Opção: \n");
                 scanf("%d", &opcao_sub);
 
                 switch (opcao_sub)
                 {
                 case 1:
                     cria_produto(cabeca_lista_produtos);
+                    printf("\nProduto cadastrado com sucesso!\n");
                     break;
 
                 case 2:
@@ -49,17 +50,18 @@ int main()
                     break;
 
                 case 3:
-                    printf("Digite o Codigo: ");
+                    printf("\nDigite o Codigo: ");
                     scanf("%d", &codigo_temp);
                     Produto *produto_selecionado = procurar_produto(cabeca_lista_produtos, codigo_temp);
 
                     if (produto_selecionado)
                     {
-                        printf("Produto: %s | Preco: %.2f\n", produto_selecionado->nome, produto_selecionado->preco_produto);
+                        printf("\nProduto encontrado:\n");
+                        printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", produto_selecionado->codigo_produto, produto_selecionado->nome, produto_selecionado->preco_produto, produto_selecionado->quantidade);
                     }
                     else
                     {
-                        printf("Produto nao encontrado.\n");
+                        printf("Produto não encontrado.\n");
                     }
                     break;
 

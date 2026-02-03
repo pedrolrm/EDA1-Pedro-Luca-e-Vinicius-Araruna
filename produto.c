@@ -57,11 +57,16 @@ void cria_produto(Produto *cabeca)
     }
 
     printf("\nDigite o código do produto: ");
-    scanf("%d", &novo_produto->codigo_produto);
-    limpar_buffer();
+    while (scanf("%d", &novo_produto->codigo_produto) != 1)
+    {
+        printf("\nERRO: Digite um número inteiro para o código!\n");
+        limpar_buffer();
+        printf("\nDigite o código do produto: ");
+    }
+
     if (procurar_produto(cabeca, novo_produto->codigo_produto) != NULL) // Usa a função de busca para ver se o código já está cadastrado
     {
-        printf("\nUm produto com esse código já está cadastrado!");
+        printf("\nUm produto com esse código já está cadastrado!\n");
         free(novo_produto);
         return;
     }
@@ -70,18 +75,18 @@ void cria_produto(Produto *cabeca)
 
     do
     {
-        printf("Digite o preço do produto: ");
+        printf("\nDigite o preço do produto: ");
         scanf("%f", &novo_produto->preco_produto);
         limpar_buffer();
 
         if (novo_produto->preco_produto <= 0)
-            printf("Erro: Preço deve ser positivo.\n");
+            printf("\nErro: Preço deve ser positivo.\n");
 
     } while (novo_produto->preco_produto <= 0);
 
     do
     {
-        printf("Digite a quantidade inicial em estoque: ");
+        printf("\nDigite a quantidade inicial em estoque: ");
         scanf("%d", &novo_produto->quantidade);
         limpar_buffer();
 
@@ -110,7 +115,7 @@ void editar_produto(Produto *cabeca)
     }
 
     int opcao;
-    printf("Você deseja editar: \n(1): Nome do produto \n(2): Preço do produto\n");
+    printf("Você deseja editar: \n(1): Nome do produto \n(2): Preço do produto\n(3): Quantidade em estoque\n");
     scanf("%d", &opcao);
     if (opcao == 1)
     {
@@ -125,6 +130,14 @@ void editar_produto(Produto *cabeca)
         printf("\nDigite o novo preço para o produto: ");
         scanf("%f", &novo_preco);
         produto_editado->preco_produto = novo_preco;
+    }
+
+    if (opcao == 3)
+    {
+        int nova_quantidade;
+        printf("\nDigite a nova quantidade em estoque: ");
+        scanf("%d", &nova_quantidade);
+        produto_editado->quantidade = nova_quantidade;
     }
 }
 
