@@ -24,7 +24,7 @@ void listar_produtos(Produto *cabeca)
     Produto *atual = cabeca->prox;
     while (atual != NULL)
     {
-        printf("Código: %d | Nome: %s | Preço: R$ %.2f \n", atual->codigo_produto, atual->nome, atual->preco_produto);
+        printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", atual->codigo_produto, atual->nome, atual->preco_produto, atual->quantidade);
 
         atual = atual->prox;
     }
@@ -67,7 +67,7 @@ Produto *cria_produto(Produto *cabeca)
     scanf("%d",&novo_produto->quantidade);
 
     novo_produto->prox = NULL;
-    
+
     return novo_produto;
 }
 
