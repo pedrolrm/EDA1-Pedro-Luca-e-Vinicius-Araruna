@@ -123,6 +123,7 @@ int main()
 
     } while (opcao_principal != 0);
 
-    apagar_lista_produtos(cabeca_lista_produtos); // free na memória
+    apagar_lista_produtos(cabeca_lista_produtos); 
+    liberaMemoriaTotal(&cabeca_lista_clientes);
     return 0;
 }
