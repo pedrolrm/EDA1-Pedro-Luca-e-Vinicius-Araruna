@@ -119,6 +119,72 @@ int main()
             } while (opcao_sub != 0);
             break;
 
+        case 3:
+        {
+            char cpf_cliente[15];
+            printf("Digite o CPF do cliente: ");
+            scanf(" %[^\n]", cpf_cliente);
+            limpar_buffer();
+            Cliente *cliente = encontrar_cliente_por_cpf(cabeca_lista_clientes, cpf_cliente);
+            if (cliente == NULL)
+            {
+                printf("Cliente não encontrado.\n");
+                break;
+            }
+            do
+            {
+                printf("\n--- CARRINHO DE %s ---\n", cliente->nome);
+                printf("1. Adicionar Produto ao Carrinho\n");
+                printf("2. Listar Carrinho\n");
+                printf("3. Remover Produto do Carrinho\n");
+                printf("0. Voltar\n");
+                printf("Opcao: ");
+                scanf("%d", &opcao_sub);
+                limpar_buffer();
+
+                switch (opcao_sub)
+                {
+                case 1:
+                    printf("Digite o código do produto: ");
+                    scanf("%d", &codigo_temp);
+                    limpar_buffer();
+                    Produto *prod = procurar_produto(cabeca_lista_produtos, codigo_temp);
+                    if (prod == NULL)
+                    {
+                        printf("Produto não encontrado.\n");
+                    }
+                    else
+                    {
+                        int qtd;
+                        printf("Digite a quantidade: ");
+                        scanf("%d", &qtd);
+                        limpar_buffer();
+                        adiciona_ao_carrinho(cliente, prod, qtd);
+                    }
+                    break;
+
+                case 2:
+                    listar_carrinho(cliente->carrinho);
+                    break;
+
+                case 3:
+                    printf("Digite o código do produto para remover: ");
+                    scanf("%d", &codigo_temp);
+                    limpar_buffer();
+                    remover_do_carrinho(cliente->carrinho, cabeca_lista_produtos, codigo_temp);
+                    break;
+
+                case 0:
+                    printf("Voltando ao menu principal...\n");
+                    break;
+
+                default:
+                    printf("Opcao invalida!\n");
+                }
+            } while (opcao_sub != 0);
+        }
+        break;
+
         case 0:
             printf("Saindo do sistema...\n");
             break;

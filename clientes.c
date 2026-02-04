@@ -273,10 +273,12 @@ float calcular_total_carrinho(ItemCarrinho *cabeca)
     return total;
 }
 
-void remover_do_carrinho(ItemCarrinho *carrinho, int codigo_produto)
+void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_produto)
 {
     ItemCarrinho *anterior = carrinho;
     ItemCarrinho *atual = carrinho->prox;
+    Produto *produto = procurar_produto(cabeca, codigo_produto);
+
     while (atual != NULL && atual->produto->codigo_produto != codigo_produto)
     {
         anterior = atual;
@@ -287,6 +289,7 @@ void remover_do_carrinho(ItemCarrinho *carrinho, int codigo_produto)
         printf("Produto não encontrado no carrinho.\n");
         return;
     }
+    produto->quantidade += atual->quantidade;
     anterior->prox = atual->prox;
     free(atual);
     printf("Produto removido do carrinho.\n");
@@ -315,6 +318,7 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
         {
             atual->quantidade += qtd;
             printf("\nProduto adicionado ao carrinho!\n");
+            produto->quantidade -= qtd;
             return;
         }
         atual = atual->prox;
@@ -330,5 +334,6 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
     novo_item->quantidade = qtd;
     novo_item->prox = cabeca_carrinho->prox;
     cabeca_carrinho->prox = novo_item;
+    produto->quantidade -= qtd;
     printf("Produto adicionado ao carrinho!\n");
 }
