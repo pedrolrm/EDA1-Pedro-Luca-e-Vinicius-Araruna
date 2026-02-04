@@ -93,6 +93,7 @@ int main()
                 printf("1. Cadastrar Cliente\n");
                 printf("2. Listar Clientes\n");
                 printf("3. Editar Cliente\n");
+                printf("4. Remover Cliente\n");
                 printf("0. Voltar\n");
                 scanf("%d", &opcao_sub);
                 limpar_buffer();
