@@ -320,7 +320,7 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
         {
             atual->quantidade += qtd;
             printf("\nProduto adicionado ao carrinho!\n");
-            produto->quantidade -= qtd;
+            baixarEstoque(cabeca, produto->codigo_produto, qtd);
             return;
         }
         atual = atual->prox;
