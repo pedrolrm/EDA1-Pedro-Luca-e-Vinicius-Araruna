@@ -164,6 +164,12 @@ void editarCliente(Cliente *cabeca)
 
 void removerCliente(Cliente *cabeca)
 {
+    if(cabeca->prox == NULL)
+    {
+        printf("\nErro: Nao ha clientes cadastrados no sistema!\n");
+        return;
+    }
+
     char busca_cpf[15];
     printf("\n CPF para remover: ");
     scanf(" %[^\n]", busca_cpf);
