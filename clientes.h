@@ -39,7 +39,7 @@ void liberaMemoriaTotal(Cliente **head);
 ItemCarrinho *cria_lista_carrinho();
 void listar_carrinho(ItemCarrinho *cabeca);
 float calcular_total_carrinho(ItemCarrinho *cabeca);
-void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd);
+void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_produto, int qtd);
 void remover_do_carrinho(ItemCarrinho *cabeca_carrinho, Produto *cabeca_produto, int codigo_produto);
 
 #endif

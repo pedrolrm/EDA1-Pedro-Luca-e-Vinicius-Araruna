@@ -289,14 +289,16 @@ void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_pro
         printf("Produto não encontrado no carrinho.\n");
         return;
     }
-    produto->quantidade += atual->quantidade;
+    devolverEstoque(cabeca, codigo_produto, atual->quantidade);
     anterior->prox = atual->prox;
     free(atual);
     printf("Produto removido do carrinho.\n");
 }
 
-void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
+void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_produto, int qtd)
 {
+    Produto *produto = procurar_produto(cabeca, codigo_produto);
+
     if (cliente_alvo == NULL || produto == NULL || qtd <= 0)
     {
         printf("\nFalha ao adicionar produto ao carrinho\n");
@@ -334,6 +336,6 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *produto, int qtd)
     novo_item->quantidade = qtd;
     novo_item->prox = cabeca_carrinho->prox;
     cabeca_carrinho->prox = novo_item;
-    produto->quantidade -= qtd;
+    baixarEstoque(cabeca, produto->codigo_produto, qtd);
     printf("Produto adicionado ao carrinho!\n");
 }
