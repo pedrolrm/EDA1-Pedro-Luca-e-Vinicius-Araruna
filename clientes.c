@@ -422,3 +422,71 @@ void salvar_clientes(Cliente *cabeca){
     fclose(arquivo);
     printf("Base de clientes salva com sucesso!\n");
 }
+
+void carregar_clientes(Cliente *cabeca_clientes, Produto *cabeca_produtos){
+    FILE *arquivo = fopen("clientes.txt", "r");
+    if(arquivo == NULL){
+        printf("Nenhum arquivo 'clientes.txt' encontrado! Iniciando base vazia\n");
+        return;
+    }
+
+    char cpf[15], nome[100], email[50] , tel[20], data[12], lixo[10];
+    int qtd_itens_carrinho;
+
+    Cliente *ultimo_cliente = cabeca_clientes;
+    while(ultimo_cliente->prox != NULL){
+        ultimo_cliente = ultimo_cliente->prox;
+    }
+
+    while(fscanf(arquivo, "%s\n", cpf) == 1){
+        fgets(nome, 100, arquivo);
+        nome[strcspn(nome, "\n")] = 0;
+
+        fscanf(arquivo,"%s\n", email);
+        fscanf(arquivo,"%s\n", tel);
+        fscanf(arquivo,"%s\n", data);
+        fscanf(arquivo,"%d\n", &qtd_itens_carrinho);
+
+        Cliente *novo = calloc(1, sizeof(Cliente));
+        strcpy(novo->cpf, cpf);
+        novo->nome = malloc(strlen(nome) + 1);
+        strcpy(novo->nome, nome);
+        strcpy(novo->email, email);
+        strcpy(novo->telefone, tel);
+        strcpy(novo->data_nascimento,data);
+
+
+        novo->carrinho = cria_lista_carrinho();
+        novo->carrinho->quantidade = 0;
+
+        //Recontrucao do carrinho
+
+        for(int i = 0 ; i < qtd_itens_carrinho ; i++){
+            int codigo, qtd;
+            fscanf(arquivo, "%d\n", &codigo);
+            fscanf(arquivo, "%d\n", &qtd);
+
+            Produto *produto_real = procurar_produto(cabeca_produtos, codigo);
+
+            if(produto_real != NULL){
+
+                ItemCarrinho *novo_item = malloc(sizeof(ItemCarrinho));
+                novo_item->produto = produto_real;
+                novo_item->quantidade = qtd;
+
+                //insercao logo apos a cabeca
+                novo_item->prox = novo->carrinho->prox;
+                novo->carrinho->prox = novo_item;
+            }
+        }
+        fscanf(arquivo, "%s\n", lixo);
+
+        novo->prox = NULL;
+        ultimo_cliente->prox = novo;
+        ultimo_cliente = novo;
+
+        cabeca_clientes->total_clientes++;
+    }
+    fclose(arquivo);
+    printf("Clientes carregados com sucesso!\n");
+}
