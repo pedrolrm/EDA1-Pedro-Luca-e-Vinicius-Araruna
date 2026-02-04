@@ -124,7 +124,16 @@ void buscarClientePorCPF(Cliente *cabeca)
     printf("Email: %s\n", cliente_encontrado->email);
     printf("Telefone: %s\n", cliente_encontrado->telefone);
     printf("Data de Nascimento: %s\n", cliente_encontrado->data_nascimento);
-    printf("------------------------\n");
+
+    printf("\n--- Carrinho Atual ---\n");
+
+    if(cliente_encontrado->carrinho != NULL && cliente_encontrado->carrinho->prox != NULL){
+        listar_carrinho(cliente_encontrado->carrinho);
+    } else{
+        printf("Carrinho vazio no momento!\n");
+    }
+
+    printf("--------------------------");
 }
 
 void editarCliente(Cliente *cabeca)
