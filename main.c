@@ -11,6 +11,8 @@ int main()
     Produto *cabeca_lista_produtos = cria_lista_produto();
     Cliente *cabeca_lista_clientes = criarListaComCabeca();
 
+    carregar_produtos(cabeca_lista_produtos);
+
     do
     {
         printf("\n=== SISTEMA DE GESTAO ===\n");
@@ -177,6 +179,8 @@ int main()
             printf("Opcao invalida!\n");
         }
     } while (opcao_principal != 0);
+
+    salvar_produtos(cabeca_lista_produtos);
 
     apagar_lista_produtos(cabeca_lista_produtos);
     liberaMemoriaTotal(&cabeca_lista_clientes);
