@@ -148,19 +148,13 @@ int main()
                     printf("Digite o código do produto: ");
                     scanf("%d", &codigo_temp);
                     limpar_buffer();
-                    Produto *prod = procurar_produto(cabeca_lista_produtos, codigo_temp);
-                    if (prod == NULL)
-                    {
-                        printf("Produto não encontrado.\n");
-                    }
-                    else
-                    {
-                        int qtd;
-                        printf("Digite a quantidade: ");
-                        scanf("%d", &qtd);
-                        limpar_buffer();
-                        adiciona_ao_carrinho(cliente, prod, qtd);
-                    }
+
+                    int qtd;
+                    printf("Digite a quantidade: ");
+                    scanf("%d", &qtd);
+                    limpar_buffer();
+                    adiciona_ao_carrinho(cliente, cabeca_lista_produtos, codigo_temp, qtd);
+
                     break;
 
                 case 2:
@@ -192,7 +186,6 @@ int main()
         default:
             printf("Opcao invalida!\n");
         }
-
     } while (opcao_principal != 0);
 
     apagar_lista_produtos(cabeca_lista_produtos);
