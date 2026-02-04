@@ -238,3 +238,31 @@ void imprime_um_produto(Produto *cabeca)
         printf("Produto não encontrado.\n");
     }
 }
+
+// PERSISTENCIA DE DADOS 
+
+void salvar_produtos(Produto *cabeca){
+
+    FILE *arquivo = fopen("produtos.txt", "w");
+    if(arquivo == NULL){
+        pritnf("Erro: Nao foi possivel criar o arquivo produtos.txt!\n");
+        return;
+    }
+
+    Produto *atual = cabeca->prox;
+    while(atual != NULL){
+
+        //Formato: CODIGO \n NOME \n PRECO \n QTD \n #(marcador para divisao)
+
+        fpritnf(arquivo, "%d\n" , atual->codigo_produto);
+        fpritnf(arquivo,"%s\n", cabeca->nome);
+        fpritnf(arquivo,"%.2f\n", cabeca->preco_produto);
+        fpritnf(arquivo,"%d\n", cabeca->quantidade);
+        fpritnf(arquivo,"#\n");
+
+        atual = atual->prox;
+    }
+
+    fclose(arquivo);
+    printf("Dados dos produtos salvos com sucesso!\n");
+}
