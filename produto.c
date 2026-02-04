@@ -245,7 +245,7 @@ void salvar_produtos(Produto *cabeca){
 
     FILE *arquivo = fopen("produtos.txt", "w");
     if(arquivo == NULL){
-        pritnf("Erro: Nao foi possivel criar o arquivo produtos.txt!\n");
+        printf("Erro: Nao foi possivel criar o arquivo produtos.txt!\n");
         return;
     }
 
@@ -254,11 +254,11 @@ void salvar_produtos(Produto *cabeca){
 
         //Formato: CODIGO \n NOME \n PRECO \n QTD \n #(marcador para divisao)
 
-        fpritnf(arquivo, "%d\n" , atual->codigo_produto);
-        fpritnf(arquivo,"%s\n", cabeca->nome);
-        fpritnf(arquivo,"%.2f\n", cabeca->preco_produto);
-        fpritnf(arquivo,"%d\n", cabeca->quantidade);
-        fpritnf(arquivo,"#\n");
+        fprintf(arquivo, "%d\n" , atual->codigo_produto);
+        fprintf(arquivo,"%s\n", atual->nome);
+        fprintf(arquivo,"%.2f\n", atual->preco_produto);
+        fprintf(arquivo,"%d\n", atual->quantidade);
+        fprintf(arquivo,"#\n");
 
         atual = atual->prox;
     }
@@ -291,7 +291,7 @@ void carregar_produtos(Produto *cabeca){
         nome_buffer[strcspn(nome_buffer, "\n")] = 0;
 
         fscanf(arquivo,"%f\n", &preco);
-        fscanf(arquivo,"%f\n", &quantidade);
+        fscanf(arquivo,"%d\n", &quantidade);
         fscanf(arquivo,"%s\n", lixo_buffer);
 
         Produto *novo = malloc(sizeof(Produto));
