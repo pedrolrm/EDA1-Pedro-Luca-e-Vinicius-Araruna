@@ -45,4 +45,9 @@ float calcular_total_carrinho(ItemCarrinho *cabeca);
 void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_produto, int qtd);
 void remover_do_carrinho(ItemCarrinho *cabeca_carrinho, Produto *cabeca_produto, int codigo_produto);
 
+// funcoes de persistencia de dados
+
+void carregar_clientes(Cliente *cabeca_clientes, Produto *cabeca_produtos);
+void salvar_clientes(Cliente *cabeca);
+
 #endif
