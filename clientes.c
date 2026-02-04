@@ -1,4 +1,5 @@
 #include "clientes.h"
+#include "utils.h"
 
 Cliente *criarListaComCabeca()
 {
@@ -29,16 +30,27 @@ Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf)
 void cadastrarCliente(Cliente *cabeca)
 {
     char cpf_temp[15];
+    int cpf_valido = 0;
     printf("\n--- Novo Cadastro ---\n");
-    printf("CPF: ");
-    scanf(" %[^\n]", cpf_temp);
-    limpar_buffer();
-
-    if (encontrar_cliente_por_cpf(cabeca, cpf_temp) != NULL)
+    do
     {
-        printf("Erro: CPF ja cadastrado!");
-        return;
-    }
+        printf("CPF: ");
+        scanf(" %[^\n]", cpf_temp);
+        limpar_buffer();
+
+        if (!apenasNumeros(cpf_temp))
+            printf("Erro: O CPF deve conter apenas numeros! Tente novamente!\n");
+        else if (encontrar_cliente_por_cpf(cabeca, cpf_temp) != NULL)
+        {
+            printf("Erro: CPF ja cadastrado!");
+            return;
+        }
+        else
+        {
+            cpf_valido = 1;
+        }
+    } while (!cpf_valido);
+
     Cliente *novo_cliente = calloc(1, sizeof(Cliente));
 
     if (!novo_cliente)
@@ -164,7 +176,7 @@ void editarCliente(Cliente *cabeca)
 
 void removerCliente(Cliente *cabeca)
 {
-    if(cabeca->prox == NULL)
+    if (cabeca->prox == NULL)
     {
         printf("\nErro: Nao ha clientes cadastrados no sistema!\n");
         return;

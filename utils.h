@@ -3,4 +3,5 @@
 
 char *ler_texto();
 void limpar_buffer();
+int apenasNumeros(char *str);
 #endif

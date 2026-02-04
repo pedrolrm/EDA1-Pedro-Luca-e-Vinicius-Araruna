@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
+#include <ctype.h>
 
 char *ler_texto()
 {
@@ -22,4 +23,11 @@ char *ler_texto()
 void limpar_buffer(){
     int c;
     while((c = getchar()) != '\n' &&  c != EOF); // c!= EOF para nao entrar em loop infinito
+}
+
+int apenasNumeros(char *str){
+    for(int i =0; str[i] != '\0'; i++){
+        if(!isdigit(str[i])) return 0;
+    }
+    return 1;
 }
