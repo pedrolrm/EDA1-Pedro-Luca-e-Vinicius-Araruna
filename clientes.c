@@ -131,21 +131,21 @@ void editarCliente(Cliente *cabeca)
             break;
 
         case 2:
-            printf("Novo email: (atual: %s)", cliente_alvo->email);
+            printf("(atual: %s) Novo email: ", cliente_alvo->email);
             scanf(" %[^\n]", cliente_alvo->email);
             limpar_buffer();
             printf("Email atualizado com sucesso!\n");
             break;
 
         case 3:
-            printf("Novo telefone: (atual: %s)", cliente_alvo->telefone);
+            printf("(atual: %s) Novo telefone: ", cliente_alvo->telefone);
             scanf(" %[^\n]", cliente_alvo->telefone);
             limpar_buffer();
             printf("Numero de telefone atualizado com sucesso!\n");
             break;
 
         case 4:
-            printf("Nova data de nascimento: (atual: %s)", cliente_alvo->data_nascimento);
+            printf(" (atual: %s) Nova data de nascimento: ", cliente_alvo->data_nascimento);
             scanf(" %[^\n]", cliente_alvo->data_nascimento);
             limpar_buffer();
             printf("Data de Nascimento atualizada com sucesso!\n");
