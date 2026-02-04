@@ -32,6 +32,7 @@ typedef struct _Cliente
 Cliente *criarListaComCabeca();
 void cadastrarCliente(Cliente *head);
 void listarClientes(Cliente *head);
+void buscarClientePorCPF(Cliente *cabeca);
 void editarCliente(Cliente *head);
 void removerCliente(Cliente *head);
 Cliente *encontrar_cliente_por_cpf(Cliente *cabeca, char *cpf);

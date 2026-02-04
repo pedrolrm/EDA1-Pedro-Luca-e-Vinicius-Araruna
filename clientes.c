@@ -102,6 +102,31 @@ void listarClientes(Cliente *cabeca)
     printf("----------------------------\n");
 }
 
+void buscarClientePorCPF(Cliente *cabeca)
+{
+    char cpf_busca[15];
+    printf("\n--- Buscar Cliente por CPF ---\n");
+    printf("Digite o CPF do cliente: ");
+    scanf(" %[^\n]", cpf_busca);
+    limpar_buffer();
+
+    Cliente *cliente_encontrado = encontrar_cliente_por_cpf(cabeca, cpf_busca);
+
+    if (cliente_encontrado == NULL)
+    {
+        printf("Cliente com CPF %s nao encontrado!\n", cpf_busca);
+        return;
+    }
+
+    printf("\n--- Dados do Cliente ---\n");
+    printf("CPF: %s\n", cliente_encontrado->cpf);
+    printf("Nome: %s\n", cliente_encontrado->nome);
+    printf("Email: %s\n", cliente_encontrado->email);
+    printf("Telefone: %s\n", cliente_encontrado->telefone);
+    printf("Data de Nascimento: %s\n", cliente_encontrado->data_nascimento);
+    printf("------------------------\n");
+}
+
 void editarCliente(Cliente *cabeca)
 {
     char busca_cpf[15];

@@ -77,8 +77,9 @@ int main()
                 printf("\n--- MENU CLIENTES ---\n");
                 printf("1. Cadastrar Cliente\n");
                 printf("2. Listar Clientes\n");
-                printf("3. Editar Cliente\n");
-                printf("4. Remover Cliente\n");
+                printf("3. Buscar Cliente por CPF\n");
+                printf("4. Editar Cliente\n");
+                printf("5. Remover Cliente\n");
                 printf("0. Voltar\n");
                 scanf("%d", &opcao_sub);
                 limpar_buffer();
@@ -92,9 +93,12 @@ int main()
                     listarClientes(cabeca_lista_clientes);
                     break;
                 case 3:
-                    editarCliente(cabeca_lista_clientes);
+                    buscarClientePorCPF(cabeca_lista_clientes);
                     break;
                 case 4:
+                    editarCliente(cabeca_lista_clientes);
+                    break;
+                case 5:
                     removerCliente(cabeca_lista_clientes);
                     break;
                 case 0:
