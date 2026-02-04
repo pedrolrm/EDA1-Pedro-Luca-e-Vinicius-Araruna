@@ -12,6 +12,7 @@ int main()
     Cliente *cabeca_lista_clientes = criarListaComCabeca();
 
     carregar_produtos(cabeca_lista_produtos);
+    carregar_clientes(cabeca_lista_clientes,cabeca_lista_produtos);
 
     do
     {
@@ -181,6 +182,7 @@ int main()
     } while (opcao_principal != 0);
 
     salvar_produtos(cabeca_lista_produtos);
+    salvar_clientes(cabeca_lista_clientes);
 
     apagar_lista_produtos(cabeca_lista_produtos);
     liberaMemoriaTotal(&cabeca_lista_clientes);
