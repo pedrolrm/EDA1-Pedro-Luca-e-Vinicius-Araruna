@@ -417,6 +417,7 @@ void salvar_clientes(Cliente *cabeca){
             item = item->prox;
         }
         fprintf(arquivo, "#\n");
+        atual = atual->prox;
     }
 
     fclose(arquivo);
