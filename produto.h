@@ -28,6 +28,6 @@ void devolverEstoque(Produto *cabeca, int codigo, int qtd_devolvida);
 // PERSISTENCIA DE DADOS
 
 void salvar_produtos(Produto *cabeca);
-void carregar_produto(Produto *cabeca);
+void carregar_produtos(Produto *cabeca);
 
 #endif
