@@ -80,20 +80,20 @@ void cadastrarCliente(Cliente *cabeca)
     novo_cliente->prox = cabeca->prox;
     cabeca->prox = novo_cliente;
 
+    cabeca->total_clientes++;
+
     printf("Cliente cadastrado com sucesso!\n");
 }
 
 void listarClientes(Cliente *cabeca)
 {
-
-    Cliente *cliente_atual = cabeca->prox;
-
-    if (cliente_atual == NULL)
-    {
-        printf("\n--- Lista de clientes vazia ---\n");
+    if(cabeca->total_clientes == 0){
+        printf("\n--- Lista de clientes vazia --\n");
+        return;
     }
 
-    printf("\n---Lista de Clientes ---\n");
+    printf("\n---Lista de Clientes (Total: %d) ---\n",cabeca->total_clientes);
+    Cliente *cliente_atual = cabeca->prox;
     while (cliente_atual != NULL)
     {
         printf("CPF: %s  |  Nome: %s\n", cliente_atual->cpf, cliente_atual->nome);
@@ -202,6 +202,8 @@ void removerCliente(Cliente *cabeca)
     }
 
     cliente_anterior->prox = cliente_atual->prox;
+
+    cabeca->total_clientes--;
 
     if (cliente_atual->nome != NULL)
     {

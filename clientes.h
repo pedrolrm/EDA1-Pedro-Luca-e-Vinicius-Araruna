@@ -22,6 +22,8 @@ typedef struct _Cliente
     char telefone[20];
     char data_nascimento[12];
 
+    int total_clientes;
+
     ItemCarrinho *carrinho;
     struct _Cliente *prox;
 } Cliente;
