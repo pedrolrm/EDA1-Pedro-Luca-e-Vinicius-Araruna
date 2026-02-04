@@ -12,13 +12,13 @@ typedef struct Produto
 } Produto;
 
 Produto *cria_lista_produto();
-Produto *procura_fim(Produto *inicio);
 void cria_produto(Produto *inicio);
 void listar_produtos(Produto *inicio);
 Produto *procurar_produto(Produto *inicio, int codigo_produto);
 void editar_produto(Produto *inicio);
-void remover_produto(Produto *inicio, int codigo_produto);
+void remover_produto(Produto *inicio);
 void apagar_lista_produtos(Produto *inicio);
+void imprime_um_produto(Produto *cabeca);
 
 // Estoque de Produtos
 

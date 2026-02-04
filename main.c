@@ -42,7 +42,6 @@ int main()
                 {
                 case 1:
                     cria_produto(cabeca_lista_produtos);
-                    printf("\nProduto cadastrado com sucesso!\n");
                     break;
 
                 case 2:
@@ -50,19 +49,7 @@ int main()
                     break;
 
                 case 3:
-                    printf("\nDigite o Codigo: ");
-                    scanf("%d", &codigo_temp);
-                    Produto *produto_selecionado = procurar_produto(cabeca_lista_produtos, codigo_temp);
-
-                    if (produto_selecionado)
-                    {
-                        printf("\nProduto encontrado:\n");
-                        printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", produto_selecionado->codigo_produto, produto_selecionado->nome, produto_selecionado->preco_produto, produto_selecionado->quantidade);
-                    }
-                    else
-                    {
-                        printf("Produto não encontrado.\n");
-                    }
+                    imprime_um_produto(cabeca_lista_produtos);
                     break;
 
                 case 4:
@@ -70,9 +57,7 @@ int main()
                     break;
 
                 case 5:
-                    printf("Digite o Codigo para remover: ");
-                    scanf("%d", &codigo_temp);
-                    remover_produto(cabeca_lista_produtos, codigo_temp);
+                    remover_produto(cabeca_lista_produtos);
                     break;
 
                 case 0:

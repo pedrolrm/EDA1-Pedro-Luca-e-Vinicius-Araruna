@@ -92,6 +92,7 @@ void cria_produto(Produto *cabeca)
     // Lógica de inserção na lista
     novo_produto->prox = cabeca->prox; // Insere o novo produto entre a cabeça e o antigo primeiro produto
     cabeca->prox = novo_produto;       // remove o link entre a cabeça e o antigo primeiro produto, agora o primeiro é o novo
+    printf("\nProduto cadastrado com sucesso!\n");
 }
 
 void editar_produto(Produto *cabeca)
@@ -147,10 +148,14 @@ void editar_produto(Produto *cabeca)
     }
 }
 
-void remover_produto(Produto *cabeca, int codigo_produto)
+void remover_produto(Produto *cabeca)
 {
     Produto *anterior = cabeca;
     Produto *atual = cabeca->prox;
+
+    int codigo_produto;
+    printf("Digite o código para remover: ");
+    scanf("%d", &codigo_produto);
 
     while (atual != NULL && atual->codigo_produto != codigo_produto)
     {
@@ -212,5 +217,24 @@ void devolverEstoque(Produto *cabeca, int codigo, int qtd_devolvida)
     if (p != NULL)
     {
         p->quantidade += qtd_devolvida;
+    }
+}
+
+void imprime_um_produto(Produto *cabeca)
+{
+    int codigo;
+    printf("\nDigite o Codigo: ");
+    scanf("%d", &codigo);
+    limpar_buffer();
+    Produto *produto_selecionado = procurar_produto(cabeca, codigo);
+
+    if (produto_selecionado)
+    {
+        printf("\nProduto encontrado:\n");
+        printf("Código: %d | Nome: %s | Preço: R$ %.2f | Estoque: %d\n", produto_selecionado->codigo_produto, produto_selecionado->nome, produto_selecionado->preco_produto, produto_selecionado->quantidade);
+    }
+    else
+    {
+        printf("Produto não encontrado.\n");
     }
 }

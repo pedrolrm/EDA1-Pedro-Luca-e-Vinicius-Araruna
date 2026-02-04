@@ -277,7 +277,6 @@ void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_pro
 {
     ItemCarrinho *anterior = carrinho;
     ItemCarrinho *atual = carrinho->prox;
-    Produto *produto = procurar_produto(cabeca, codigo_produto);
 
     while (atual != NULL && atual->produto->codigo_produto != codigo_produto)
     {
