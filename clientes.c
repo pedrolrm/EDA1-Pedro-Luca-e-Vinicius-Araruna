@@ -383,3 +383,42 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
     baixarEstoque(cabeca, produto->codigo_produto, qtd);
     printf("Produto adicionado ao carrinho!\n");
 }
+
+//PERSISTENCIA DE DADOS
+
+void salvar_clientes(Cliente *cabeca){
+    FILE *arquivo = fopen("clientes.txt", "w");
+    if(arquivo == NULL){
+        printf("Erro ao criar arquivo clientes.txt\n");
+        return;
+    }
+
+    Cliente *atual = cabeca->prox;
+    while(atual != NULL){
+        fprintf(arquivo, "%s\n", atual->cpf);
+        fprintf(arquivo, "%s\n", atual->nome);
+        fprintf(arquivo, "%s\n", atual->email);
+        fprintf(arquivo, "%s\n", atual->telefone);
+        fprintf(arquivo, "%s\n", atual->data_nascimento);
+
+        int qtd_itens = 0;
+        ItemCarrinho *item = atual->carrinho->prox;
+        while(item != NULL){
+            qtd_itens++;
+            item = item->prox;
+        }
+        fprintf(arquivo,"%d\n",qtd_itens);
+
+
+        item = atual->carrinho->prox;
+        while(item != NULL){
+            fprintf(arquivo, "%d\n", item->produto->codigo_produto);
+            fprintf(arquivo, "%d\n", item->quantidade);
+            item = item->prox;
+        }
+        fprintf(arquivo, "#\n");
+    }
+
+    fclose(arquivo);
+    printf("Base de clientes salva com sucesso!\n");
+}
