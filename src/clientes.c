@@ -331,8 +331,13 @@ float calcular_total_carrinho(ItemCarrinho *cabeca)
     return total;
 }
 
-void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_produto)
+void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca)
 {
+    int codigo_produto;
+    printf("Digite o código do produto para remover: ");
+    scanf("%d", &codigo_produto);
+    limpar_buffer();
+
     ItemCarrinho *anterior = carrinho;
     ItemCarrinho *atual = carrinho->prox;
 
@@ -352,8 +357,18 @@ void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_pro
     printf("Produto removido do carrinho.\n");
 }
 
-void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_produto, int qtd)
+void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca)
 {
+    int codigo_produto;
+    printf("Digite o código do produto: ");
+    scanf("%d", &codigo_produto);
+    limpar_buffer();
+
+    int qtd;
+    printf("Digite a quantidade: ");
+    scanf("%d", &qtd);
+    limpar_buffer();
+
     Produto *produto = procurar_produto(cabeca, codigo_produto);
 
     if (cliente_alvo == NULL || produto == NULL || qtd <= 0)
@@ -371,7 +386,7 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
     ItemCarrinho *cabeca_carrinho = cliente_alvo->carrinho;
     ItemCarrinho *atual = cabeca_carrinho->prox;
 
-    while (atual != NULL)
+    while (atual != NULL) // Procura se o item já existe no carrinho
     {
         if (atual->produto->codigo_produto == produto->codigo_produto)
         {
@@ -383,7 +398,7 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
         atual = atual->prox;
     }
 
-    ItemCarrinho *novo_item = (ItemCarrinho *)malloc(sizeof(ItemCarrinho));
+    ItemCarrinho *novo_item = (ItemCarrinho *)malloc(sizeof(ItemCarrinho)); // se não existe cria um novo e insere no ínicio da lista
     if (novo_item == NULL)
     {
         printf("Falha ao alocar memória para item do carrinho.\n");
