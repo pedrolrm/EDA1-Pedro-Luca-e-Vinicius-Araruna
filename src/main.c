@@ -7,9 +7,11 @@
 int main()
 {
     int opcao_principal, opcao_sub;
-    int codigo_temp;
     Produto *cabeca_lista_produtos = cria_lista_produto();
     Cliente *cabeca_lista_clientes = criarListaComCabeca();
+
+    carregar_produtos(cabeca_lista_produtos);
+    carregar_clientes(cabeca_lista_clientes, cabeca_lista_produtos);
 
     do
     {
@@ -128,23 +130,14 @@ int main()
                 printf("2. Listar Carrinho\n");
                 printf("3. Remover Produto do Carrinho\n");
                 printf("0. Voltar\n");
-                printf("Opcao: ");
+                printf("Opção: ");
                 scanf("%d", &opcao_sub);
                 limpar_buffer();
 
                 switch (opcao_sub)
                 {
                 case 1:
-                    printf("Digite o código do produto: ");
-                    scanf("%d", &codigo_temp);
-                    limpar_buffer();
-
-                    int qtd;
-                    printf("Digite a quantidade: ");
-                    scanf("%d", &qtd);
-                    limpar_buffer();
-                    adiciona_ao_carrinho(cliente, cabeca_lista_produtos, codigo_temp, qtd);
-
+                    adiciona_ao_carrinho(cliente, cabeca_lista_produtos);
                     break;
 
                 case 2:
@@ -152,10 +145,7 @@ int main()
                     break;
 
                 case 3:
-                    printf("Digite o código do produto para remover: ");
-                    scanf("%d", &codigo_temp);
-                    limpar_buffer();
-                    remover_do_carrinho(cliente->carrinho, cabeca_lista_produtos, codigo_temp);
+                    remover_do_carrinho(cliente->carrinho, cabeca_lista_produtos);
                     break;
 
                 case 0:
@@ -163,20 +153,23 @@ int main()
                     break;
 
                 default:
-                    printf("Opcao invalida!\n");
+                    printf("Opção invalida!\n");
                 }
             } while (opcao_sub != 0);
         }
         break;
 
         case 0:
-            printf("Saindo do sistema...\n");
+            printf("\nSaindo do sistema...\n");
             break;
 
         default:
-            printf("Opcao invalida!\n");
+            printf("Opção invalida!\n");
         }
     } while (opcao_principal != 0);
+
+    salvar_produtos(cabeca_lista_produtos);
+    salvar_clientes(cabeca_lista_clientes);
 
     apagar_lista_produtos(cabeca_lista_produtos);
     liberaMemoriaTotal(&cabeca_lista_clientes);

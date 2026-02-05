@@ -87,12 +87,13 @@ void cadastrarCliente(Cliente *cabeca)
 
 void listarClientes(Cliente *cabeca)
 {
-    if(cabeca->total_clientes == 0){
+    if (cabeca->total_clientes == 0)
+    {
         printf("\n--- Lista de clientes vazia --\n");
         return;
     }
 
-    printf("\n---Lista de Clientes (Total: %d) ---\n",cabeca->total_clientes);
+    printf("\n---Lista de Clientes (Total: %d) ---\n", cabeca->total_clientes);
     Cliente *cliente_atual = cabeca->prox;
     while (cliente_atual != NULL)
     {
@@ -124,7 +125,19 @@ void buscarClientePorCPF(Cliente *cabeca)
     printf("Email: %s\n", cliente_encontrado->email);
     printf("Telefone: %s\n", cliente_encontrado->telefone);
     printf("Data de Nascimento: %s\n", cliente_encontrado->data_nascimento);
-    printf("------------------------\n");
+
+    printf("\n--- Carrinho Atual ---\n");
+
+    if (cliente_encontrado->carrinho != NULL && cliente_encontrado->carrinho->prox != NULL)
+    {
+        listar_carrinho(cliente_encontrado->carrinho);
+    }
+    else
+    {
+        printf("Carrinho vazio no momento!\n");
+    }
+
+    printf("--------------------------");
 }
 
 void editarCliente(Cliente *cabeca)
@@ -318,8 +331,13 @@ float calcular_total_carrinho(ItemCarrinho *cabeca)
     return total;
 }
 
-void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_produto)
+void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca)
 {
+    int codigo_produto;
+    printf("Digite o código do produto para remover: ");
+    scanf("%d", &codigo_produto);
+    limpar_buffer();
+
     ItemCarrinho *anterior = carrinho;
     ItemCarrinho *atual = carrinho->prox;
 
@@ -339,8 +357,18 @@ void remover_do_carrinho(ItemCarrinho *carrinho, Produto *cabeca, int codigo_pro
     printf("Produto removido do carrinho.\n");
 }
 
-void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_produto, int qtd)
+void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca)
 {
+    int codigo_produto;
+    printf("Digite o código do produto: ");
+    scanf("%d", &codigo_produto);
+    limpar_buffer();
+
+    int qtd;
+    printf("Digite a quantidade: ");
+    scanf("%d", &qtd);
+    limpar_buffer();
+
     Produto *produto = procurar_produto(cabeca, codigo_produto);
 
     if (cliente_alvo == NULL || produto == NULL || qtd <= 0)
@@ -358,7 +386,7 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
     ItemCarrinho *cabeca_carrinho = cliente_alvo->carrinho;
     ItemCarrinho *atual = cabeca_carrinho->prox;
 
-    while (atual != NULL)
+    while (atual != NULL) // Procura se o item já existe no carrinho
     {
         if (atual->produto->codigo_produto == produto->codigo_produto)
         {
@@ -370,7 +398,7 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
         atual = atual->prox;
     }
 
-    ItemCarrinho *novo_item = (ItemCarrinho *)malloc(sizeof(ItemCarrinho));
+    ItemCarrinho *novo_item = (ItemCarrinho *)malloc(sizeof(ItemCarrinho)); // se não existe cria um novo e insere no ínicio da lista
     if (novo_item == NULL)
     {
         printf("Falha ao alocar memória para item do carrinho.\n");
@@ -382,4 +410,121 @@ void adiciona_ao_carrinho(Cliente *cliente_alvo, Produto *cabeca, int codigo_pro
     cabeca_carrinho->prox = novo_item;
     baixarEstoque(cabeca, produto->codigo_produto, qtd);
     printf("Produto adicionado ao carrinho!\n");
+}
+
+// PERSISTENCIA DE DADOS
+
+void salvar_clientes(Cliente *cabeca)
+{
+    FILE *arquivo = fopen("data/clientes.txt", "w");
+    if (arquivo == NULL)
+    {
+        printf("Erro ao criar arquivo clientes.txt\n");
+        return;
+    }
+
+    Cliente *atual = cabeca->prox;
+    while (atual != NULL)
+    {
+        fprintf(arquivo, "%s\n", atual->cpf);
+        fprintf(arquivo, "%s\n", atual->nome);
+        fprintf(arquivo, "%s\n", atual->email);
+        fprintf(arquivo, "%s\n", atual->telefone);
+        fprintf(arquivo, "%s\n", atual->data_nascimento);
+
+        int qtd_itens = 0;
+        ItemCarrinho *item = atual->carrinho->prox;
+        while (item != NULL)
+        {
+            qtd_itens++;
+            item = item->prox;
+        }
+        fprintf(arquivo, "%d\n", qtd_itens);
+
+        item = atual->carrinho->prox;
+        while (item != NULL)
+        {
+            fprintf(arquivo, "%d\n", item->produto->codigo_produto);
+            fprintf(arquivo, "%d\n", item->quantidade);
+            item = item->prox;
+        }
+        fprintf(arquivo, "#\n");
+        atual = atual->prox;
+    }
+
+    fclose(arquivo);
+    printf("Base de clientes salva com sucesso!\n");
+}
+
+void carregar_clientes(Cliente *cabeca_clientes, Produto *cabeca_produtos)
+{
+    FILE *arquivo = fopen("data/clientes.txt", "r");
+    if (arquivo == NULL)
+    {
+        printf("Nenhum arquivo 'clientes.txt' encontrado! Iniciando base vazia\n");
+        return;
+    }
+
+    char cpf[15], nome[100], email[50], tel[20], data[12], lixo[10];
+    int qtd_itens_carrinho;
+
+    Cliente *ultimo_cliente = cabeca_clientes;
+    while (ultimo_cliente->prox != NULL)
+    {
+        ultimo_cliente = ultimo_cliente->prox;
+    }
+
+    while (fscanf(arquivo, "%s\n", cpf) == 1)
+    {
+        fgets(nome, 100, arquivo);
+        nome[strcspn(nome, "\n")] = 0;
+
+        fscanf(arquivo, "%s\n", email);
+        fscanf(arquivo, "%s\n", tel);
+        fscanf(arquivo, "%s\n", data);
+        fscanf(arquivo, "%d\n", &qtd_itens_carrinho);
+
+        Cliente *novo = calloc(1, sizeof(Cliente));
+        strcpy(novo->cpf, cpf);
+        novo->nome = malloc(strlen(nome) + 1);
+        strcpy(novo->nome, nome);
+        strcpy(novo->email, email);
+        strcpy(novo->telefone, tel);
+        strcpy(novo->data_nascimento, data);
+
+        novo->carrinho = cria_lista_carrinho();
+        novo->carrinho->quantidade = 0;
+
+        // Recontrucao do carrinho
+
+        for (int i = 0; i < qtd_itens_carrinho; i++)
+        {
+            int codigo, qtd;
+            fscanf(arquivo, "%d\n", &codigo);
+            fscanf(arquivo, "%d\n", &qtd);
+
+            Produto *produto_real = procurar_produto(cabeca_produtos, codigo);
+
+            if (produto_real != NULL)
+            {
+
+                ItemCarrinho *novo_item = malloc(sizeof(ItemCarrinho));
+                novo_item->produto = produto_real;
+                novo_item->quantidade = qtd;
+
+                // insercao logo apos a cabeca
+                novo_item->prox = novo->carrinho->prox;
+                novo->carrinho->prox = novo_item;
+            }
+        }
+        fscanf(arquivo, "%s\n", lixo);
+
+        novo->prox = NULL;
+        ultimo_cliente->prox = novo;
+        ultimo_cliente = novo;
+
+        cabeca_clientes->total_clientes++;
+    }
+    fclose(arquivo);
+    printf("Clientes carregados com sucesso!\n");
 }

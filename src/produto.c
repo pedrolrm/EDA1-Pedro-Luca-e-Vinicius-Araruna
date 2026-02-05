@@ -238,3 +238,82 @@ void imprime_um_produto(Produto *cabeca)
         printf("Produto não encontrado.\n");
     }
 }
+
+// PERSISTENCIA DE DADOS
+
+void salvar_produtos(Produto *cabeca)
+{
+
+    FILE *arquivo = fopen("data/produtos.txt", "w");
+    if (arquivo == NULL)
+    {
+        printf("Erro: Nao foi possivel criar o arquivo produtos.txt!\n");
+        return;
+    }
+
+    Produto *atual = cabeca->prox;
+    while (atual != NULL)
+    {
+
+        // Formato: CODIGO \n NOME \n PRECO \n QTD \n #(marcador para divisao)
+
+        fprintf(arquivo, "%d\n", atual->codigo_produto);
+        fprintf(arquivo, "%s\n", atual->nome);
+        fprintf(arquivo, "%.2f\n", atual->preco_produto);
+        fprintf(arquivo, "%d\n", atual->quantidade);
+        fprintf(arquivo, "#\n");
+
+        atual = atual->prox;
+    }
+
+    fclose(arquivo);
+    printf("Dados dos produtos salvos com sucesso!\n");
+}
+
+void carregar_produtos(Produto *cabeca)
+{
+    FILE *arquivo = fopen("data/produtos.txt", "r");
+
+    if (arquivo == NULL)
+    {
+        printf("Nenhum arquivo 'produtos.txt' encontrado! Iniciando base vazia\n");
+        return;
+    }
+
+    int codigo, quantidade;
+    float preco;
+    char nome_buffer[100];
+    char lixo_buffer[10];
+
+    Produto *ultimo = cabeca;
+    while (ultimo->prox != NULL)
+    {
+        ultimo = ultimo->prox;
+    }
+
+    while (fscanf(arquivo, "%d\n", &codigo) == 1)
+    {
+
+        fgets(nome_buffer, 100, arquivo);
+        nome_buffer[strcspn(nome_buffer, "\n")] = 0;
+
+        fscanf(arquivo, "%f\n", &preco);
+        fscanf(arquivo, "%d\n", &quantidade);
+        fscanf(arquivo, "%s\n", lixo_buffer);
+
+        Produto *novo = malloc(sizeof(Produto));
+        novo->codigo_produto = codigo;
+        novo->preco_produto = preco;
+        novo->quantidade = quantidade;
+
+        novo->nome = malloc(strlen(nome_buffer) + 1);
+        strcpy(novo->nome, nome_buffer);
+
+        // Insercao ao final da lista
+        novo->prox = NULL;
+        ultimo->prox = novo;
+        ultimo = novo;
+    }
+    fclose(arquivo);
+    printf("Produtos carregados com sucesso!\n");
+}
