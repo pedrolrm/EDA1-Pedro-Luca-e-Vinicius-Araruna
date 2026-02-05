@@ -1,0 +1,10 @@
+bin/
+data/
+data/*.txt
+*.o
+*.exe
+*.out
+.vscode/
+.DS_Store
+Thumbs.db
+*~
